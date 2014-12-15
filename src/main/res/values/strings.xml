@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Nexus7 SMS</string>
+    <string name="sms_phoneToHint">recipient\'s phone number</string>
+    <string name="sms_contentHint">text message</string>
+    <string name="sms_sendButton">Send SMS</string>
+    <string name="sms_sendConfirmation">Are you sure you want to send the message?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="error_noPhone">missing phone number</string>
+    <string name="error_noMessage">missing message</string>
+    <string name="sms_sent">SMS sent!</string>
+</resources>

@@ -4,35 +4,39 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 tools:context="com.emilburzo.nexus7sms.SmsActivity"
-        >
+    >
 
     <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="100dp"
-            android:id="@+id/smsDestination"
-            android:hint="number to"
-            android:text="0745321948"
-            android:gravity="center"
-            />
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_margin="50dp"
+        android:id="@+id/smsDestination"
+        android:hint="@string/sms_phoneToHint"
+        android:gravity="center"
+        />
 
     <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:id="@+id/smsContent"
-            android:hint="content"
-            android:layout_below="@id/smsDestination"
-            />
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_margin="50dp"
+        android:id="@+id/smsContent"
+        android:hint="@string/sms_contentHint"
+        android:gravity="center"
+        android:layout_below="@id/smsDestination"
+        />
 
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Send"
-            android:id="@+id/button"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:onClick="sendSms"
-            />
-
+    <ImageButton
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="20dp"
+        android:text="@string/sms_sendButton"
+        android:id="@+id/sendButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:onClick="onSend"
+        android:src="@android:drawable/ic_menu_send"
+        android:background="?attr/selectableItemBackground"
+        />
 
 </RelativeLayout>
