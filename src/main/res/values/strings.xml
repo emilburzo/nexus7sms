@@ -9,5 +9,11 @@
     <string name="no">No</string>
     <string name="error_noPhone">missing phone number</string>
     <string name="error_noMessage">missing message</string>
-    <string name="sms_sent">SMS sent!</string>
+    <string name="sent_smsSent">SMS sent</string>
+    <string name="sent_genericError">Unknown failure</string>
+    <string name="sent_noService">No service</string>
+    <string name="sent_noPdu">Missing PDU</string>
+    <string name="sent_radioOff">Radio disabled</string>
+    <string name="delivery_ok">SMS delivered</string>
+    <string name="delivery_fail">SMS not delivered</string>
 </resources>

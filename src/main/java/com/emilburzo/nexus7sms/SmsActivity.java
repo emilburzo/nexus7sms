@@ -1,7 +1,9 @@
 package com.emilburzo.nexus7sms;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.PendingIntent;
+import android.content.*;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.SmsManager;
@@ -12,6 +14,9 @@ import android.widget.Toast;
 
 public class SmsActivity extends ActionBarActivity {
 
+    private static final String SENT = "SMS_SENT";
+    private static final String DELIVERED = "SMS_DELIVERED";
+
     private ImageButton sendButton;
     private EditText smsDestination;
     private EditText smsContent;
@@ -19,11 +24,57 @@ public class SmsActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.sms_activity);
 
+        initUi();
+
+        initHandlers();
+    }
+
+    private void initUi() {
         sendButton = (ImageButton) findViewById(R.id.sendButton);
         smsDestination = (EditText) findViewById(R.id.smsDestination);
         smsContent = (EditText) findViewById(R.id.smsContent);
+    }
+
+    private void initHandlers() {
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode()) {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), getString(R.string.sent_smsSent), Toast.LENGTH_LONG).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        Toast.makeText(getBaseContext(), getString(R.string.sent_genericError), Toast.LENGTH_LONG).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        Toast.makeText(getBaseContext(), getString(R.string.sent_noService), Toast.LENGTH_LONG).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NULL_PDU:
+                        Toast.makeText(getBaseContext(), getString(R.string.sent_noPdu), Toast.LENGTH_LONG).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+                        Toast.makeText(getBaseContext(), getString(R.string.sent_radioOff), Toast.LENGTH_LONG).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(SENT));
+
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode()) {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), getString(R.string.delivery_ok), Toast.LENGTH_LONG).show();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Toast.makeText(getBaseContext(), getString(R.string.delivery_fail), Toast.LENGTH_LONG).show();
+                        break;
+                }
+            }
+        }, new IntentFilter(DELIVERED));
     }
 
     public void onSend(View view) {
@@ -55,11 +106,11 @@ public class SmsActivity extends ActionBarActivity {
     }
 
     private void sendSms(String phone, String message) {
+        PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
+        PendingIntent deliveryIntent = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
+
         SmsManager sms = SmsManager.getDefault();
-
-        sms.sendTextMessage(phone, null, message, null, null);
-
-        Toast.makeText(this, getString(R.string.sms_sent), Toast.LENGTH_LONG).show();
+        sms.sendTextMessage(phone, null, message, sentIntent, deliveryIntent);
     }
 
     private boolean valid(String phone, String message) {
@@ -72,7 +123,6 @@ public class SmsActivity extends ActionBarActivity {
             smsContent.setError(getString(R.string.error_noMessage));
             return false;
         }
-
 
         return true;
     }
