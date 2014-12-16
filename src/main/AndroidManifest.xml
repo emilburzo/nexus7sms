@@ -2,10 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.emilburzo.nexus7sms"
           android:installLocation="auto"
-          android:versionCode="1"
-          android:versionName="0.1">
+          android:versionCode="2"
+          android:versionName="0.2">
 
+    <!--permissions-->
     <uses-permission android:name="android.permission.SEND_SMS"/>
+
+    <!--features-->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false"/>
 
     <application
         android:allowBackup="true"
