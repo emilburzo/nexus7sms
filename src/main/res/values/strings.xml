@@ -16,4 +16,5 @@
     <string name="sent_radioOff">Radio disabled</string>
     <string name="delivery_ok">SMS delivered</string>
     <string name="delivery_fail">SMS not delivered</string>
+    <string name="contact_search_hint">search by name or number</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.emilburzo.nexus7sms;
+package com.emilburzo.nexus7sms.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,11 +11,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import com.emilburzo.nexus7sms.R;
+import com.emilburzo.nexus7sms.misc.Utils;
 
 public class SmsActivity extends ActionBarActivity {
 
     private static final String SENT = "SMS_SENT";
     private static final String DELIVERED = "SMS_DELIVERED";
+
+    private static final int REQUEST_PICK_CONTACT = 1;
 
     private ImageButton sendButton;
     private EditText smsDestination;
@@ -30,6 +34,14 @@ public class SmsActivity extends ActionBarActivity {
         initUi();
 
         initHandlers();
+    }
+
+    private void loadValues(Intent intent) {
+        String phoneNumber = Utils.getPhoneNumber(intent);
+
+        if (Utils.isNotEmpty(phoneNumber)) {
+            smsDestination.setText(phoneNumber);
+        }
     }
 
     private void initUi() {
@@ -125,5 +137,32 @@ public class SmsActivity extends ActionBarActivity {
         }
 
         return true;
+    }
+
+    public void clearInput(View view) {
+        smsDestination.setText("");
+
+        clearInputErrors();
+    }
+
+    private void clearInputErrors() {
+        // clear any possible error messages
+        smsDestination.setError(null);
+    }
+
+    public void lookup(View view) {
+        clearInputErrors();
+
+        Intent intent = new Intent(this, LookupContact.class);
+        startActivityForResult(intent, REQUEST_PICK_CONTACT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == REQUEST_PICK_CONTACT) {
+            if (resultCode == RESULT_OK) {
+                loadValues(intent);
+            }
+        }
     }
 }

@@ -3,40 +3,74 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                tools:context="com.emilburzo.nexus7sms.SmsActivity"
-    >
+                tools:context="com.emilburzo.nexus7sms.activity.SmsActivity"
+        >
+
+    <RelativeLayout
+            android:id="@+id/smsDestinationLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            >
+
+        <EditText
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:id="@+id/smsDestination"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:hint="@string/sms_phoneToHint"
+                />
+
+        <ImageButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/btnClear"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:background="?attr/selectableItemBackground"
+                android:onClick="clearInput"
+                android:layout_toRightOf="@id/smsDestination"
+                android:layout_toEndOf="@id/smsDestination"
+                />
+
+        <ImageButton
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/btnSearch"
+                android:src="@android:drawable/ic_menu_add"
+                android:background="?attr/selectableItemBackground"
+                android:onClick="lookup"
+                android:layout_toRightOf="@id/btnClear"
+                android:layout_toEndOf="@id/btnClear"
+                />
+
+    </RelativeLayout>
 
     <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:layout_margin="50dp"
-        android:id="@+id/smsDestination"
-        android:hint="@string/sms_phoneToHint"
-        android:gravity="center"
-        />
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="100dp"
-        android:layout_margin="50dp"
-        android:id="@+id/smsContent"
-        android:hint="@string/sms_contentHint"
-        android:gravity="center"
-        android:layout_below="@id/smsDestination"
-        />
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="50dp"
+            android:id="@+id/smsContent"
+            android:hint="@string/sms_contentHint"
+            android:gravity="center"
+            android:layout_below="@id/smsDestinationLayout"
+            android:layout_centerHorizontal="true"
+            />
 
     <ImageButton
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_margin="20dp"
-        android:text="@string/sms_sendButton"
-        android:id="@+id/sendButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:onClick="onSend"
-        android:src="@android:drawable/ic_menu_send"
-        android:background="?attr/selectableItemBackground"
-        />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="20dp"
+            android:text="@string/sms_sendButton"
+            android:id="@+id/sendButton"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+
+            android:onClick="onSend"
+            android:src="@android:drawable/ic_menu_send"
+            android:background="?attr/selectableItemBackground"
+            />
 
 </RelativeLayout>
