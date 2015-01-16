@@ -7,9 +7,12 @@ import android.content.*;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.telephony.SmsManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.misc.Utils;
@@ -20,10 +23,12 @@ public class SmsActivity extends ActionBarActivity {
     private static final String DELIVERED = "SMS_DELIVERED";
 
     private static final int REQUEST_PICK_CONTACT = 1;
+    private static final int SMS_MAX_LENGTH = 160;
 
     private ImageButton sendButton;
     private EditText smsDestination;
     private EditText smsContent;
+    private TextView msgLength;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,7 @@ public class SmsActivity extends ActionBarActivity {
         sendButton = (ImageButton) findViewById(R.id.sendButton);
         smsDestination = (EditText) findViewById(R.id.smsDestination);
         smsContent = (EditText) findViewById(R.id.smsContent);
+        msgLength = (TextView) findViewById(R.id.msgLength);
     }
 
     private void initHandlers() {
@@ -87,6 +93,31 @@ public class SmsActivity extends ActionBarActivity {
                 }
             }
         }, new IntentFilter(DELIVERED));
+
+        smsContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                updateMessageLength();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
+    private void updateMessageLength() {
+        msgLength.setText(getMessageLength());
+    }
+
+    private String getMessageLength() {
+        return String.format("%s/%s", smsContent.length(), SMS_MAX_LENGTH);
     }
 
     public void onSend(View view) {
@@ -133,6 +164,11 @@ public class SmsActivity extends ActionBarActivity {
 
         if (message == null || message.isEmpty()) {
             smsContent.setError(getString(R.string.error_noMessage));
+            return false;
+        }
+
+        if (message.length() > SMS_MAX_LENGTH) {
+            smsContent.setError(getString(R.string.message_too_long));
             return false;
         }
 

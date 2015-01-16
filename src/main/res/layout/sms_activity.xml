@@ -47,16 +47,34 @@
 
     </RelativeLayout>
 
-    <EditText
-            android:layout_width="400dp"
+    <RelativeLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="50dp"
-            android:id="@+id/smsContent"
-            android:hint="@string/sms_contentHint"
-            android:gravity="center"
+            android:layout_marginTop="50dp"
             android:layout_below="@id/smsDestinationLayout"
-            android:layout_centerHorizontal="true"
-            />
+            >
+
+        <EditText
+                android:id="@+id/smsContent"
+                android:layout_width="400dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/sms_contentHint"
+                android:gravity="center"
+                android:layout_centerHorizontal="true"
+                />
+
+        <TextView
+                android:id="@+id/msgLength"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0/160"
+                android:layout_toRightOf="@id/smsContent"
+                android:layout_toEndOf="@id/smsContent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="20dp"
+                />
+    </RelativeLayout>
 
     <ImageButton
             android:layout_width="48dp"
@@ -72,5 +90,6 @@
             android:src="@android:drawable/ic_menu_send"
             android:background="?attr/selectableItemBackground"
             />
+
 
 </RelativeLayout>
