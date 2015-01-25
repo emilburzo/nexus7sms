@@ -30,6 +30,9 @@ public class SmsActivity extends ActionBarActivity {
     private EditText smsContent;
     private TextView msgLength;
 
+    private BroadcastReceiver sendBroadcastReceiver;
+    private BroadcastReceiver deliveryBroadcastReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,42 +60,10 @@ public class SmsActivity extends ActionBarActivity {
     }
 
     private void initHandlers() {
-        registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context arg0, Intent arg1) {
-                switch (getResultCode()) {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), getString(R.string.sent_smsSent), Toast.LENGTH_LONG).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(getBaseContext(), getString(R.string.sent_genericError), Toast.LENGTH_LONG).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(getBaseContext(), getString(R.string.sent_noService), Toast.LENGTH_LONG).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NULL_PDU:
-                        Toast.makeText(getBaseContext(), getString(R.string.sent_noPdu), Toast.LENGTH_LONG).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        Toast.makeText(getBaseContext(), getString(R.string.sent_radioOff), Toast.LENGTH_LONG).show();
-                        break;
-                }
-            }
-        }, new IntentFilter(SENT));
+        initBroadcastReceivers();
 
-        registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context arg0, Intent arg1) {
-                switch (getResultCode()) {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), getString(R.string.delivery_ok), Toast.LENGTH_LONG).show();
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        Toast.makeText(getBaseContext(), getString(R.string.delivery_fail), Toast.LENGTH_LONG).show();
-                        break;
-                }
-            }
-        }, new IntentFilter(DELIVERED));
+        registerReceiver(sendBroadcastReceiver, new IntentFilter(SENT));
+        registerReceiver(deliveryBroadcastReceiver, new IntentFilter(DELIVERED));
 
         smsContent.addTextChangedListener(new TextWatcher() {
             @Override
@@ -110,6 +81,59 @@ public class SmsActivity extends ActionBarActivity {
 
             }
         });
+    }
+
+    private void initBroadcastReceivers() {
+        // send BR
+        if (sendBroadcastReceiver == null) {
+            sendBroadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context arg0, Intent arg1) {
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            Toast.makeText(getBaseContext(), getString(R.string.sent_smsSent), Toast.LENGTH_LONG).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                            Toast.makeText(getBaseContext(), getString(R.string.sent_genericError), Toast.LENGTH_LONG).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+                            Toast.makeText(getBaseContext(), getString(R.string.sent_noService), Toast.LENGTH_LONG).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_NULL_PDU:
+                            Toast.makeText(getBaseContext(), getString(R.string.sent_noPdu), Toast.LENGTH_LONG).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+                            Toast.makeText(getBaseContext(), getString(R.string.sent_radioOff), Toast.LENGTH_LONG).show();
+                            break;
+                    }
+                }
+            };
+        }
+
+        // delivered BR
+        if (deliveryBroadcastReceiver == null) {
+            deliveryBroadcastReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context arg0, Intent arg1) {
+                    switch (getResultCode()) {
+                        case Activity.RESULT_OK:
+                            Toast.makeText(getBaseContext(), getString(R.string.delivery_ok), Toast.LENGTH_LONG).show();
+                            break;
+                        case Activity.RESULT_CANCELED:
+                            Toast.makeText(getBaseContext(), getString(R.string.delivery_fail), Toast.LENGTH_LONG).show();
+                            break;
+                    }
+                }
+            };
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(sendBroadcastReceiver);
+        unregisterReceiver(deliveryBroadcastReceiver);
+
+        super.onStop();
     }
 
     private void updateMessageLength() {
