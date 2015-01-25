@@ -42,13 +42,29 @@ public class SmsActivity extends ActionBarActivity {
         initUi();
 
         initHandlers();
+
+        loadMessageFromIntent();
     }
 
-    private void loadValues(Intent intent) {
-        String phoneNumber = Utils.getPhoneNumber(intent);
+    private void loadMessageFromIntent() {
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
 
-        if (Utils.isNotEmpty(phoneNumber)) {
-            smsDestination.setText(phoneNumber);
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intent); // Handle text being sent
+            }
+        }
+    }
+
+    void handleSendText(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+
+        if (sharedText != null) {
+            // Update UI to reflect text being shared
+            smsContent.setText(sharedText);
         }
     }
 
@@ -217,11 +233,19 @@ public class SmsActivity extends ActionBarActivity {
         startActivityForResult(intent, REQUEST_PICK_CONTACT);
     }
 
+    private void loadContactPhoneNumber(Intent intent) {
+        String phoneNumber = Utils.getPhoneNumber(intent);
+
+        if (Utils.isNotEmpty(phoneNumber)) {
+            smsDestination.setText(phoneNumber);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == REQUEST_PICK_CONTACT) {
             if (resultCode == RESULT_OK) {
-                loadValues(intent);
+                loadContactPhoneNumber(intent);
             }
         }
     }
