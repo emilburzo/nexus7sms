@@ -16,12 +16,10 @@ public class ContactsAdapter extends BaseAdapter {
     private final List<Contact> contactList;
     private static LayoutInflater inflater = null;
 
-    private Context context;
-
     public ContactsAdapter(Context context, List<Contact> contactList) {
-        this.context = context;
         this.contactList = contactList;
-        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
