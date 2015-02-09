@@ -78,8 +78,7 @@ public class SmsActivity extends ActionBarActivity {
     private void initHandlers() {
         initBroadcastReceivers();
 
-        registerReceiver(sendBroadcastReceiver, new IntentFilter(SENT));
-        registerReceiver(deliveryBroadcastReceiver, new IntentFilter(DELIVERED));
+        registerReceivers();
 
         smsContent.addTextChangedListener(new TextWatcher() {
             @Override
@@ -146,8 +145,7 @@ public class SmsActivity extends ActionBarActivity {
 
     @Override
     protected void onStop() {
-        unregisterReceiver(sendBroadcastReceiver);
-        unregisterReceiver(deliveryBroadcastReceiver);
+        unregisterReceivers();
 
         super.onStop();
     }
@@ -229,8 +227,32 @@ public class SmsActivity extends ActionBarActivity {
     public void lookup(View view) {
         clearInputErrors();
 
+        unregisterReceivers();
+
         Intent intent = new Intent(this, LookupContact.class);
         startActivityForResult(intent, REQUEST_PICK_CONTACT);
+    }
+
+    private void registerReceivers() {
+        if (sendBroadcastReceiver != null) {
+            registerReceiver(sendBroadcastReceiver, new IntentFilter(SENT));
+        }
+
+        if (deliveryBroadcastReceiver != null) {
+            registerReceiver(deliveryBroadcastReceiver, new IntentFilter(DELIVERED));
+        }
+    }
+
+    private void unregisterReceivers() {
+        if (sendBroadcastReceiver != null) {
+            unregisterReceiver(sendBroadcastReceiver);
+            sendBroadcastReceiver = null;
+        }
+
+        if (deliveryBroadcastReceiver != null) {
+            unregisterReceiver(deliveryBroadcastReceiver);
+            deliveryBroadcastReceiver = null;
+        }
     }
 
     private void loadContactPhoneNumber(Intent intent) {
