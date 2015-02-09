@@ -32,6 +32,7 @@ public class SmsActivity extends ActionBarActivity {
 
     private BroadcastReceiver sendBroadcastReceiver;
     private BroadcastReceiver deliveryBroadcastReceiver;
+    private boolean receiversRegistered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +79,6 @@ public class SmsActivity extends ActionBarActivity {
     private void initHandlers() {
         initBroadcastReceivers();
 
-        registerReceivers();
-
         smsContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -100,54 +99,65 @@ public class SmsActivity extends ActionBarActivity {
 
     private void initBroadcastReceivers() {
         // send BR
-        if (sendBroadcastReceiver == null) {
-            sendBroadcastReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context arg0, Intent arg1) {
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            Toast.makeText(getBaseContext(), getString(R.string.sent_smsSent), Toast.LENGTH_LONG).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                            Toast.makeText(getBaseContext(), getString(R.string.sent_genericError), Toast.LENGTH_LONG).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_NO_SERVICE:
-                            Toast.makeText(getBaseContext(), getString(R.string.sent_noService), Toast.LENGTH_LONG).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_NULL_PDU:
-                            Toast.makeText(getBaseContext(), getString(R.string.sent_noPdu), Toast.LENGTH_LONG).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-                            Toast.makeText(getBaseContext(), getString(R.string.sent_radioOff), Toast.LENGTH_LONG).show();
-                            break;
-                    }
+        sendBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode()) {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), getString(R.string.sent_smsSent), Toast.LENGTH_LONG).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                        Toast.makeText(getBaseContext(), getString(R.string.sent_genericError), Toast.LENGTH_LONG).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NO_SERVICE:
+                        Toast.makeText(getBaseContext(), getString(R.string.sent_noService), Toast.LENGTH_LONG).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_NULL_PDU:
+                        Toast.makeText(getBaseContext(), getString(R.string.sent_noPdu), Toast.LENGTH_LONG).show();
+                        break;
+                    case SmsManager.RESULT_ERROR_RADIO_OFF:
+                        Toast.makeText(getBaseContext(), getString(R.string.sent_radioOff), Toast.LENGTH_LONG).show();
+                        break;
                 }
-            };
-        }
+            }
+        };
 
         // delivered BR
-        if (deliveryBroadcastReceiver == null) {
-            deliveryBroadcastReceiver = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context arg0, Intent arg1) {
-                    switch (getResultCode()) {
-                        case Activity.RESULT_OK:
-                            Toast.makeText(getBaseContext(), getString(R.string.delivery_ok), Toast.LENGTH_LONG).show();
-                            break;
-                        case Activity.RESULT_CANCELED:
-                            Toast.makeText(getBaseContext(), getString(R.string.delivery_fail), Toast.LENGTH_LONG).show();
-                            break;
-                    }
+        deliveryBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context arg0, Intent arg1) {
+                switch (getResultCode()) {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), getString(R.string.delivery_ok), Toast.LENGTH_LONG).show();
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Toast.makeText(getBaseContext(), getString(R.string.delivery_fail), Toast.LENGTH_LONG).show();
+                        break;
                 }
-            };
-        }
+            }
+        };
     }
 
-    @Override
-    protected void onStop() {
-        unregisterReceivers();
+    private void registerReceivers() {
+        if (receiversRegistered) {
+            return;
+        }
 
-        super.onStop();
+        registerReceiver(sendBroadcastReceiver, new IntentFilter(SENT));
+        registerReceiver(deliveryBroadcastReceiver, new IntentFilter(DELIVERED));
+
+        receiversRegistered = true;
+    }
+
+    private void unregisterReceivers() {
+        if (!receiversRegistered) {
+            return;
+        }
+
+        unregisterReceiver(sendBroadcastReceiver);
+        unregisterReceiver(deliveryBroadcastReceiver);
+
+        receiversRegistered = false;
     }
 
     private void updateMessageLength() {
@@ -233,27 +243,6 @@ public class SmsActivity extends ActionBarActivity {
         startActivityForResult(intent, REQUEST_PICK_CONTACT);
     }
 
-    private void registerReceivers() {
-        if (sendBroadcastReceiver != null) {
-            registerReceiver(sendBroadcastReceiver, new IntentFilter(SENT));
-        }
-
-        if (deliveryBroadcastReceiver != null) {
-            registerReceiver(deliveryBroadcastReceiver, new IntentFilter(DELIVERED));
-        }
-    }
-
-    private void unregisterReceivers() {
-        if (sendBroadcastReceiver != null) {
-            unregisterReceiver(sendBroadcastReceiver);
-            sendBroadcastReceiver = null;
-        }
-
-        if (deliveryBroadcastReceiver != null) {
-            unregisterReceiver(deliveryBroadcastReceiver);
-            deliveryBroadcastReceiver = null;
-        }
-    }
 
     private void loadContactPhoneNumber(Intent intent) {
         String phoneNumber = Utils.getPhoneNumber(intent);
@@ -268,6 +257,8 @@ public class SmsActivity extends ActionBarActivity {
         if (requestCode == REQUEST_PICK_CONTACT) {
             if (resultCode == RESULT_OK) {
                 loadContactPhoneNumber(intent);
+
+                registerReceivers();
             }
         }
     }
