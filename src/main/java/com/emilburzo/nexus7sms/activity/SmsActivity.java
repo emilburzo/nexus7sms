@@ -79,6 +79,8 @@ public class SmsActivity extends ActionBarActivity {
     private void initHandlers() {
         initBroadcastReceivers();
 
+        registerReceivers();
+
         smsContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -237,8 +239,6 @@ public class SmsActivity extends ActionBarActivity {
     public void lookup(View view) {
         clearInputErrors();
 
-        unregisterReceivers();
-
         Intent intent = new Intent(this, LookupContact.class);
         startActivityForResult(intent, REQUEST_PICK_CONTACT);
     }
@@ -257,8 +257,6 @@ public class SmsActivity extends ActionBarActivity {
         if (requestCode == REQUEST_PICK_CONTACT) {
             if (resultCode == RESULT_OK) {
                 loadContactPhoneNumber(intent);
-
-                registerReceivers();
             }
         }
     }
