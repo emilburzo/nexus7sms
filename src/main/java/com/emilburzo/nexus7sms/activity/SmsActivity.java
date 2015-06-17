@@ -5,7 +5,7 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.*;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,13 +17,15 @@ import android.widget.Toast;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.misc.Utils;
 
-public class SmsActivity extends ActionBarActivity {
+public class SmsActivity extends AppCompatActivity {
 
     private static final String SENT = "SMS_SENT";
     private static final String DELIVERED = "SMS_DELIVERED";
 
     private static final int REQUEST_PICK_CONTACT = 1;
     private static final int SMS_MAX_LENGTH = 160;
+
+    private final String TAG = this.getClass().getSimpleName();
 
     private ImageButton sendButton;
     private EditText smsDestination;
@@ -243,7 +245,7 @@ public class SmsActivity extends ActionBarActivity {
     public void lookup(View view) {
         clearInputErrors();
 
-        Intent intent = new Intent(this, LookupContact.class);
+        Intent intent = new Intent(this, LookupContactActivity.class);
         startActivityForResult(intent, REQUEST_PICK_CONTACT);
     }
 

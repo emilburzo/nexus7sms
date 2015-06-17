@@ -22,8 +22,8 @@
         android:theme="@style/Theme.AppCompat">
 
         <activity
-            android:name=".activity.SmsActivity"
-            android:label="Nexus7 SMS">
+            android:name=".activity.SmsListActivity"
+            android:label="Nexus 7 SMS">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -38,7 +38,12 @@
         </activity>
 
         <activity
-            android:name=".activity.LookupContact"
+            android:name=".activity.SmsActivity"
+            android:label="Nexus 7 SMS">
+        </activity>
+
+        <activity
+            android:name=".activity.LookupContactActivity"
             android:parentActivityName=".activity.SmsActivity">
 
             <!-- Parent activity meta-data to support API level 7+ -->
@@ -46,6 +51,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.SmsActivity"/>
         </activity>
+
+        <service
+            android:name=".service.SmsListenerService"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

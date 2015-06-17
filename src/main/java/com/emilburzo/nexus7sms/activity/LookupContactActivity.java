@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -22,11 +22,11 @@ import com.emilburzo.nexus7sms.pojo.Contact;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LookupContact extends ActionBarActivity {
+public class LookupContactActivity extends AppCompatActivity {
 
-    private static final String TAG = "Contacts";
+    private final String TAG = this.getClass().getSimpleName();
 
-    private List<Contact> contacts = new ArrayList<Contact>();
+    private List<Contact> contacts = new ArrayList<>();
     private ContactsAdapter contactsAdapter;
 
     private ListView listView;
@@ -61,7 +61,7 @@ public class LookupContact extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Contact contact = (Contact) listView.getItemAtPosition(position);
 
-                Intent intent = new Intent(LookupContact.this, SmsActivity.class);
+                Intent intent = new Intent(LookupContactActivity.this, SmsActivity.class);
                 intent.putExtra(Constants.Intents.PHONE_NUMBER, contact.phone);
                 setResult(RESULT_OK, intent);
                 finish();

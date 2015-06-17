@@ -7,4 +7,8 @@ public class Constants {
 
     }
 
+    public static final class SmsTypes {
+        public static final String IN = "in";
+        public static final String OUT = "out";
+    }
 }

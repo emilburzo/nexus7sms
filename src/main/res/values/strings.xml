@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Nexus7 SMS</string>
+    <string name="app_name">Nexus 7 SMS</string>
     <string name="sms_phoneToHint">phone number</string>
     <string name="sms_contentHint">text message</string>
     <string name="sms_sendButton">Send SMS</string>
