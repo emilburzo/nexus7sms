@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.adapter.SmsViewAdapter;
 import com.emilburzo.nexus7sms.misc.Constants;
+import com.emilburzo.nexus7sms.misc.Utils;
 import com.emilburzo.nexus7sms.model.SmsModel;
 import com.emilburzo.nexus7sms.pojo.Sms;
 import io.realm.Realm;
@@ -23,9 +24,7 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 public class SmsViewActivity extends AppCompatActivity {
 
@@ -170,32 +169,16 @@ public class SmsViewActivity extends AppCompatActivity {
 //            return;
 //        }
 
+        // GSM send
         sendSms(phoneNo, message);
 
-        persist(phoneNo, message);
+        // realm db persist
+        Utils.persistSmsOut(this, phoneNo, message);
 
+        // clear message
         msgBody.setText("");
 
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle(R.string.app_name);
-//        builder.setMessage(getString(R.string.sms_sendConfirmation));
-//        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                dialog.dismiss();
-//
-//                sendSms(phone, message);
-//            }
-//        });
-//
-//        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
-//            public void onClick(DialogInterface dialog, int id) {
-//                dialog.dismiss();
-//            }
-//        });
-//        AlertDialog alert = builder.create();
-//        alert.show();
-
+        // refresh list
         loadMessages();
     }
 
@@ -208,26 +191,4 @@ public class SmsViewActivity extends AppCompatActivity {
 //        sms.sendTextMessage(phone, null, message, sentIntent, deliveryIntent);
     }
 
-    private void persist(String phone, String message) {
-        Realm realm = null;
-        try {
-            realm = Realm.getInstance(this);
-
-            realm.beginTransaction();
-
-            SmsModel sms = realm.createObject(SmsModel.class); // Create a new object
-
-            sms.setUuid(UUID.randomUUID().toString());
-            sms.setBody(message);
-            sms.setPhone(phone);
-            sms.setTimestamp(new Date());
-            sms.setType(Constants.SmsTypes.OUT);
-
-            realm.commitTransaction();
-        } finally {
-            if (realm != null) {
-                realm.close();
-            }
-        }
-    }
 }

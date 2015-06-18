@@ -4,12 +4,7 @@ import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
-import com.emilburzo.nexus7sms.misc.Constants;
-import com.emilburzo.nexus7sms.model.SmsModel;
-import io.realm.Realm;
-
-import java.util.Date;
-import java.util.UUID;
+import com.emilburzo.nexus7sms.misc.Utils;
 
 public class SmsListenerService extends NotificationListenerService {
 
@@ -36,29 +31,8 @@ public class SmsListenerService extends NotificationListenerService {
             Log.i("phoneNumber", phoneNumber);
             Log.i("msgBody", msgBody);
 
-            Realm realm = null;
-            try {
-                realm = Realm.getInstance(this);
-
-                realm.beginTransaction();
-
-                SmsModel sms = realm.createObject(SmsModel.class); // Create a new object
-
-                sms.setUuid(UUID.randomUUID().toString());
-                sms.setBody(msgBody);
-                sms.setPhone(phoneNumber);
-                sms.setTimestamp(new Date());
-                sms.setType(Constants.SmsTypes.IN);
-
-                realm.commitTransaction();
-            } finally {
-                if (realm != null) {
-                    realm.close();
-                }
-            }
-
+            Utils.persistSmsIn(this, phoneNumber, msgBody);
         }
-
     }
 
     @Override
