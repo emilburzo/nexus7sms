@@ -61,10 +61,9 @@ public class LookupContactActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Contact contact = (Contact) listView.getItemAtPosition(position);
 
-                Intent intent = new Intent(LookupContactActivity.this, SmsActivity.class);
+                Intent intent = new Intent(LookupContactActivity.this, SmsViewActivity.class);
                 intent.putExtra(Constants.Intents.PHONE_NUMBER, contact.phone);
-                setResult(RESULT_OK, intent);
-                finish();
+                startActivity(intent);
             }
         });
     }

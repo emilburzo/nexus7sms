@@ -6,9 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.adapter.SmsListAdapter;
+import com.emilburzo.nexus7sms.misc.Constants;
 import com.emilburzo.nexus7sms.model.SmsModel;
 import com.emilburzo.nexus7sms.pojo.Sms;
 import com.melnykov.fab.FloatingActionButton;
@@ -53,9 +53,13 @@ public class SmsListActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SmsModel sms = (SmsModel) listView.getItemAtPosition(position);
+                Sms sms = (Sms) listView.getItemAtPosition(position);
 
-                Toast.makeText(getApplicationContext(), sms.getBody(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), sms.body, Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(SmsListActivity.this, SmsViewActivity.class);
+                intent.putExtra(Constants.Intents.PHONE_NUMBER, sms.phone);
+                startActivity(intent);
 
 //                Intent intent = new Intent(LookupContactActivity.this, SmsActivity.class);
 //                intent.putExtra(Constants.Intents.PHONE_NUMBER, contact.phone);

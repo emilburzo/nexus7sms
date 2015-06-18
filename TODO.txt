@@ -1,1 +1,4 @@
 - prompt user for secure notification access
+- ceva watcher/notifier dacă vin mesaje când ești în activity
+- cleanup activities la AndroidManifest.xml
+- //        query.equalTo("phone", phoneNo); // todo fixme

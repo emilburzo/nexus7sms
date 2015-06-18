@@ -44,12 +44,24 @@
 
         <activity
             android:name=".activity.LookupContactActivity"
-            android:parentActivityName=".activity.SmsActivity">
+            android:parentActivityName=".activity.SmsListActivity">
 
             <!-- Parent activity meta-data to support API level 7+ -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.SmsActivity"/>
+                android:value=".activity.SmsListActivity"/>
+        </activity>
+
+        <activity
+            android:name=".activity.SmsViewActivity"
+            android:parentActivityName=".activity.SmsListActivity"
+            android:windowSoftInputMode="adjustResize"
+            >
+
+            <!-- Parent activity meta-data to support API level 7+ -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.SmsListActivity"/>
         </activity>
 
         <service

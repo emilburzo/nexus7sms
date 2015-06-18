@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+    >
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/smsList"
+        android:layout_alignParentTop="true"
+        android:layout_above="@+id/msgInput"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:id="@+id/msgInput"
+        >
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:id="@+id/msgBody"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:hint="Enter message here"
+            />
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/btnSend"
+            android:src="@android:drawable/ic_menu_send"
+            android:background="?attr/selectableItemBackground"
+            android:layout_gravity="center"
+            android:onClick="doSendSms"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
+
