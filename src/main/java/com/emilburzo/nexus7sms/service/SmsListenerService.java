@@ -1,8 +1,10 @@
 package com.emilburzo.nexus7sms.service;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import com.emilburzo.nexus7sms.misc.Utils;
 
@@ -32,6 +34,12 @@ public class SmsListenerService extends NotificationListenerService {
             Log.i("msgBody", msgBody);
 
             Utils.persistSmsIn(this, phoneNumber, msgBody);
+
+            Intent msgrcv = new Intent("Msg");
+
+            System.out.println("SmsListenerService.onNotificationPosted");
+
+            LocalBroadcastManager.getInstance(this).sendBroadcast(msgrcv);
         }
     }
 

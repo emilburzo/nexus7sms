@@ -48,8 +48,6 @@ public class SmsListActivity extends AppCompatActivity {
             }
         });
 
-        loadMessages();
-
         adapter = new SmsListAdapter(this, msgs);
         listView.setAdapter(adapter);
 
@@ -71,6 +69,8 @@ public class SmsListActivity extends AppCompatActivity {
 //                finish();
             }
         });
+
+        loadMessages();
 
         checkForNotificationAccess();
     }

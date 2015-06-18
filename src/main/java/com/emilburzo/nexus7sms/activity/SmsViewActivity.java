@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -49,6 +51,15 @@ public class SmsViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sms_view);
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                System.out.println("SmsViewActivity.onReceive");
+
+                loadMessages();
+            }
+        }, new IntentFilter("Msg"));
+
         listView = (ListView) findViewById(R.id.smsList);
         msgBody = (EditText) findViewById(R.id.msgBody);
 
@@ -83,6 +94,8 @@ public class SmsViewActivity extends AppCompatActivity {
     }
 
     private void initHandlers() {
+
+        //////// todo only when sending?
         sendBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context arg0, Intent arg1) {
