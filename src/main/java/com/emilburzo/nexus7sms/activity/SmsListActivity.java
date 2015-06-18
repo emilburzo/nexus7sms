@@ -1,11 +1,15 @@
 package com.emilburzo.nexus7sms.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.adapter.SmsListAdapter;
 import com.emilburzo.nexus7sms.misc.Constants;
@@ -67,6 +71,34 @@ public class SmsListActivity extends AppCompatActivity {
 //                finish();
             }
         });
+
+        checkForNotificationAccess();
+    }
+
+    private void checkForNotificationAccess() {
+        if (!Settings.Secure.getString(getContentResolver(), "enabled_notification_listeners").contains(getApplicationContext().getPackageName())) {
+            Toast.makeText(this, "No notification access", Toast.LENGTH_LONG).show();
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.app_name);
+//            builder.setMessage(getString(R.string.sms_sendConfirmation));
+            builder.setMessage("No notification access, change it?"); // todo
+            builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+
+                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                }
+            });
+
+            builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     private void loadMessages() {
