@@ -22,7 +22,7 @@ import com.emilburzo.nexus7sms.pojo.Contact;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LookupContactActivity extends AppCompatActivity {
+public class ContactsActivity extends AppCompatActivity {
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -61,7 +61,7 @@ public class LookupContactActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Contact contact = (Contact) listView.getItemAtPosition(position);
 
-                Intent intent = new Intent(LookupContactActivity.this, SmsViewActivity.class);
+                Intent intent = new Intent(ContactsActivity.this, SmsViewActivity.class);
                 intent.putExtra(Constants.Intents.PHONE_NUMBER, contact.phone);
                 startActivity(intent);
             }

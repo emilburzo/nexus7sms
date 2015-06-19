@@ -36,7 +36,7 @@
         </activity>
 
         <activity
-                android:name=".activity.LookupContactActivity"
+                android:name=".activity.ContactsActivity"
                 android:parentActivityName=".activity.SmsListActivity">
         </activity>
 

@@ -1,6 +1,5 @@
 package com.emilburzo.nexus7sms.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.*;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.misc.Utils;
 
@@ -212,7 +210,7 @@ public class SmsActivity extends AppCompatActivity {
     public void lookup(View view) {
         clearInputErrors();
 
-        Intent intent = new Intent(this, LookupContactActivity.class);
+        Intent intent = new Intent(this, ContactsActivity.class);
         startActivityForResult(intent, REQUEST_PICK_CONTACT);
     }
 
