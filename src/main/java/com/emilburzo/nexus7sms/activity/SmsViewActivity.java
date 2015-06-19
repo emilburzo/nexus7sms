@@ -51,15 +51,6 @@ public class SmsViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sms_view);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                System.out.println("SmsViewActivity.onReceive");
-
-                loadMessages();
-            }
-        }, new IntentFilter("Msg"));
-
         listView = (ListView) findViewById(R.id.smsList);
         msgBody = (EditText) findViewById(R.id.msgBody);
 
@@ -167,11 +158,37 @@ public class SmsViewActivity extends AppCompatActivity {
         listView.setSelection(adapter.getCount() - 1);
     }
 
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//        LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                System.out.println("SmsViewActivity.onReceive");
+//                Log.i(TAG, "Local broadcast received");
+//
+//                loadMessages();
+//            }
+//        }, new IntentFilter("com.emilburzo.nexus7sms.Msg"));
+//
+//        loadMessages();
+//    }
+
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver, new IntentFilter(Constants.IntentActions.MSG_RECEIVED));
+
         loadMessages();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(msgReceiver);
     }
 
     public void doSendSms(View view) {
@@ -204,4 +221,10 @@ public class SmsViewActivity extends AppCompatActivity {
 //        sms.sendTextMessage(phone, null, message, sentIntent, deliveryIntent);
     }
 
+    private BroadcastReceiver msgReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            loadMessages();
+        }
+    };
 }

@@ -11,4 +11,8 @@ public class Constants {
         public static final String IN = "in";
         public static final String OUT = "out";
     }
+
+    public static final class IntentActions {
+        public static final String MSG_RECEIVED = "MSG_RECV";
+    }
 }

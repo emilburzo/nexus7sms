@@ -1,9 +1,9 @@
 package com.emilburzo.nexus7sms.activity;
 
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -70,9 +70,9 @@ public class SmsListActivity extends AppCompatActivity {
             }
         });
 
-        loadMessages();
-
         checkForNotificationAccess();
+
+        loadMessages();
     }
 
     private void checkForNotificationAccess() {
@@ -143,10 +143,25 @@ public class SmsListActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver, new IntentFilter(Constants.IntentActions.MSG_RECEIVED));
 
         loadMessages();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(msgReceiver);
+    }
+
+    private BroadcastReceiver msgReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            loadMessages();
+        }
+    };
 }

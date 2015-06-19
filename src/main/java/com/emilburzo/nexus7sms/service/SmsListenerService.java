@@ -6,6 +6,7 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import com.emilburzo.nexus7sms.misc.Constants;
 import com.emilburzo.nexus7sms.misc.Utils;
 
 public class SmsListenerService extends NotificationListenerService {
@@ -35,12 +36,14 @@ public class SmsListenerService extends NotificationListenerService {
 
             Utils.persistSmsIn(this, phoneNumber, msgBody);
 
-            Intent msgrcv = new Intent("Msg");
-
-            System.out.println("SmsListenerService.onNotificationPosted");
-
-            LocalBroadcastManager.getInstance(this).sendBroadcast(msgrcv);
+            notifyNewMessage();
         }
+    }
+
+    private void notifyNewMessage() {
+        Intent intent = new Intent(Constants.IntentActions.MSG_RECEIVED);
+
+        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
 
     @Override

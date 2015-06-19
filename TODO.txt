@@ -2,3 +2,4 @@
 - ceva watcher/notifier dacă vin mesaje când ești în activity
 - cleanup activities la AndroidManifest.xml
 - //        query.equalTo("phone", phoneNo); // todo fixme
+- sound effects: message sent/received
