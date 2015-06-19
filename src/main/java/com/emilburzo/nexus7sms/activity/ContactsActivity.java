@@ -53,11 +53,9 @@ public class ContactsActivity extends AppCompatActivity {
 
         // search
         search = (EditText) findViewById(R.id.search);
-        search.addTextChangedListener(new ContactsSearch());
     }
 
     private void initHandlers() {
-        // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -69,6 +67,8 @@ public class ContactsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        search.addTextChangedListener(new ContactsSearch());
     }
 
     private void loadContacts() {
@@ -109,9 +109,7 @@ public class ContactsActivity extends AppCompatActivity {
 
         phones.close();
 
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
