@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -105,6 +106,16 @@ public class ContactsActivity extends AppCompatActivity {
 
             Contact contact = new Contact(name, phoneNumber, phoneType);
             contacts.add(contact);
+        }
+
+        // are we searching for a number?
+        // if yes, give the user an option to send SMS directly to that number
+        // (when there is no contact added)
+        String search = this.search.getText().toString();
+
+        if (PhoneNumberUtils.isWellFormedSmsAddress(search)) {
+            Contact contact = new Contact(String.format("Send message to %s", search), search, null);
+            contacts.add(0, contact);
         }
 
         phones.close();

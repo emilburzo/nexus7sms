@@ -4,7 +4,6 @@ public class Constants {
 
     public class Intents {
         public static final String PHONE_NUMBER = "com.emilburzo.nexus7sms.PHONE_NUMBER";
-
     }
 
     public static final class IntentActions {
@@ -19,7 +18,6 @@ public class Constants {
     public static final class AndroidSecure {
         public static final String ENABLED_NOTIFICATION_LISTENERS = "enabled_notification_listeners";
         public static final String NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
-
     }
 
     public static final class SmsFields {
