@@ -18,4 +18,5 @@
     <string name="delivery_fail">SMS not delivered</string>
     <string name="contact_search_hint">search by name or number</string>
     <string name="message_too_long">message longer than 160 characters</string>
+    <string name="notification_permision_prompt">The app needs permission to read incoming SMS notifications.\n\nDo you want to allow it?\n\nIncoming SMS messages won\'t appear if you don\'t allow it.</string>
 </resources>

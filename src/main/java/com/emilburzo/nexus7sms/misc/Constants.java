@@ -21,4 +21,8 @@ public class Constants {
         public static final String NOTIFICATION_LISTENER_SETTINGS = "android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS";
 
     }
+
+    public static final class SmsFields {
+        public static final String TIMESTAMP = "timestamp";
+    }
 }

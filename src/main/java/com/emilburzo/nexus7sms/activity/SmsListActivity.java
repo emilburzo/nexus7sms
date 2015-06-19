@@ -30,14 +30,31 @@ public class SmsListActivity extends AppCompatActivity {
     private SmsListAdapter adapter;
 
     private ListView listView;
+    private FloatingActionButton fab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.sms_list);
 
+        initUi();
+
+        initHandlers();
+
+        checkForNotificationAccess();
+
+        loadMessages();
+    }
+
+    private void initUi() {
+        // list
         listView = (ListView) findViewById(R.id.smsList);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        adapter = new SmsListAdapter(this, msgs);
+        listView.setAdapter(adapter);
+
+        // fab
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToListView(listView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,32 +63,20 @@ public class SmsListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
-        adapter = new SmsListAdapter(this, msgs);
-        listView.setAdapter(adapter);
-
+    private void initHandlers() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Sms sms = (Sms) listView.getItemAtPosition(position);
 
-//                Toast.makeText(getApplicationContext(), sms.body, Toast.LENGTH_LONG).show();
-
                 Intent intent = new Intent(SmsListActivity.this, SmsViewActivity.class);
                 intent.putExtra(Constants.Intents.PHONE_NUMBER, sms.phone);
                 startActivity(intent);
-
-//                Intent intent = new Intent(LookupContactActivity.this, SmsActivity.class);
-//                intent.putExtra(Constants.Intents.PHONE_NUMBER, contact.phone);
-//                setResult(RESULT_OK, intent);
-//                finish();
             }
         });
-
-        checkForNotificationAccess();
-
-        loadMessages();
     }
 
     private void checkForNotificationAccess() {
@@ -79,12 +84,11 @@ public class SmsListActivity extends AppCompatActivity {
         String enabledNotificationListeners = Settings.Secure.getString(contentResolver, Constants.AndroidSecure.ENABLED_NOTIFICATION_LISTENERS);
         String packageName = getPackageName();
 
-        // check to see if the enabledNotificationListeners String contains our package name
         if (enabledNotificationListeners == null || !enabledNotificationListeners.contains(packageName)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.app_name);
-//            builder.setMessage(getString(R.string.sms_sendConfirmation));
-            builder.setMessage("No notification access, change it?"); // todo
+            builder.setMessage(getString(R.string.notification_permision_prompt));
+
             builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
@@ -98,6 +102,7 @@ public class SmsListActivity extends AppCompatActivity {
                     dialog.dismiss();
                 }
             });
+
             AlertDialog alert = builder.create();
             alert.show();
         }
@@ -106,16 +111,8 @@ public class SmsListActivity extends AppCompatActivity {
     private void loadMessages() {
         Realm realm = Realm.getInstance(this);
 
-        // Build the query looking at all users:
         RealmQuery<SmsModel> query = realm.where(SmsModel.class);
-
-// Add query conditions:
-//        query.equalTo("name", "John");
-//        query.or().equalTo("name", "Peter");
-//        query.sor
-
-// Execute the query:
-        RealmResults<SmsModel> results = query.findAllSorted("timestamp", false);
+        RealmResults<SmsModel> results = query.findAllSorted(Constants.SmsFields.TIMESTAMP, false);
 
         msgs.clear();
 
@@ -129,9 +126,7 @@ public class SmsListActivity extends AppCompatActivity {
 
         realm.close();
 
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
+        adapter.notifyDataSetChanged();
     }
 
     private boolean phoneNoExists(String phone) {
