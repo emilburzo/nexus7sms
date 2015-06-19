@@ -27,10 +27,9 @@ public class SmsListActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getSimpleName();
 
     private List<Sms> msgs = new ArrayList<>();
-    private SmsListAdapter adapter;
 
     private ListView listView;
-    private FloatingActionButton fab;
+    private SmsListAdapter adapter = new SmsListAdapter(this, msgs);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,13 +49,13 @@ public class SmsListActivity extends AppCompatActivity {
     private void initUi() {
         // list
         listView = (ListView) findViewById(R.id.smsList);
-        adapter = new SmsListAdapter(this, msgs);
         listView.setAdapter(adapter);
 
         // fab
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.attachToListView(listView);
         fab.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), LookupContactActivity.class);
