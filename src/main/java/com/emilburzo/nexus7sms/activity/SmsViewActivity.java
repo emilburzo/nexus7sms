@@ -77,7 +77,7 @@ public class SmsViewActivity extends AppCompatActivity {
 
         Log.i(TAG, String.format("Found phone number: '%s'", phoneNo));
 
-        getSupportActionBar().setTitle(phoneNo);
+        getSupportActionBar().setTitle(Utils.getContactName(this, phoneNo));
 
         loadMessages();
 

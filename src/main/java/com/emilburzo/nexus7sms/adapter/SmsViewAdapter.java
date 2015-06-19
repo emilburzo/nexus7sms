@@ -8,16 +8,19 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.misc.Constants;
+import com.emilburzo.nexus7sms.misc.Utils;
 import com.emilburzo.nexus7sms.pojo.Sms;
 
 import java.util.List;
 
 public class SmsViewAdapter extends BaseAdapter {
 
+    private Context context;
     private final List<Sms> list;
     private static LayoutInflater inflater = null;
 
     public SmsViewAdapter(Context context, List<Sms> list) {
+        this.context = context;
         this.list = list;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -49,7 +52,7 @@ public class SmsViewAdapter extends BaseAdapter {
         Sms sms = list.get(position);
 
         TextView name = (TextView) vi.findViewById(R.id.phone);
-        name.setText(sms.phone);
+        name.setText(Utils.getContactName(context, sms.phone));
 
         TextView phone = (TextView) vi.findViewById(R.id.body);
         phone.setText(sms.body);
