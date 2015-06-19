@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,7 +26,7 @@ public class ContactsActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getSimpleName();
 
     private List<Contact> contacts = new ArrayList<>();
-    private ContactsAdapter contactsAdapter;
+    private ContactsAdapter contactsAdapter = new ContactsAdapter(this, contacts);
 
     private ListView listView;
     private EditText contactsSearch;
@@ -39,21 +38,24 @@ public class ContactsActivity extends AppCompatActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        setupActionBar();
+        initUi();
 
-        // Get ListView object from xml
-        listView = (ListView) findViewById(R.id.contactsList);
+        initHandlers();
 
-        contactsSearch = (EditText) findViewById(R.id.contactsSearch);
-        contactsSearch.addTextChangedListener(new ContactsSearch());
-
-        // load contacts from the device phonebook/people/contacts
         loadContacts();
+    }
 
-        // Assign adapter to ListView
-        contactsAdapter = new ContactsAdapter(this, contacts);
+    private void initUi() {
+        // list
+        listView = (ListView) findViewById(R.id.contactsList);
         listView.setAdapter(contactsAdapter);
 
+        // search
+        contactsSearch = (EditText) findViewById(R.id.contactsSearch);
+        contactsSearch.addTextChangedListener(new ContactsSearch());
+    }
+
+    private void initHandlers() {
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -66,11 +68,6 @@ public class ContactsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    private void setupActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     private void loadContacts() {
