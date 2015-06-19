@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.adapter.SmsListAdapter;
 import com.emilburzo.nexus7sms.misc.Constants;
@@ -76,9 +75,12 @@ public class SmsListActivity extends AppCompatActivity {
     }
 
     private void checkForNotificationAccess() {
-        if (!Settings.Secure.getString(getContentResolver(), "enabled_notification_listeners").contains(getApplicationContext().getPackageName())) {
-            Toast.makeText(this, "No notification access", Toast.LENGTH_LONG).show();
+        ContentResolver contentResolver = getContentResolver();
+        String enabledNotificationListeners = Settings.Secure.getString(contentResolver, Constants.AndroidSecure.ENABLED_NOTIFICATION_LISTENERS);
+        String packageName = getPackageName();
 
+        // check to see if the enabledNotificationListeners String contains our package name
+        if (enabledNotificationListeners == null || !enabledNotificationListeners.contains(packageName)) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.app_name);
 //            builder.setMessage(getString(R.string.sms_sendConfirmation));
@@ -87,7 +89,7 @@ public class SmsListActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
 
-                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                    startActivity(new Intent(Constants.AndroidSecure.NOTIFICATION_LISTENER_SETTINGS));
                 }
             });
 
