@@ -16,7 +16,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:id="@+id/contactsSearch"
+                android:id="@+id/search"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:hint="@string/contact_search_hint"
@@ -37,7 +37,7 @@
     <ListView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/contactsList"/>
+            android:id="@+id/list"/>
 
 </LinearLayout>
 

@@ -29,7 +29,7 @@ public class SmsListActivity extends AppCompatActivity {
     private List<Sms> msgs = new ArrayList<>();
 
     private ListView listView;
-    private SmsListAdapter adapter = new SmsListAdapter(this, msgs);
+    private SmsListAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,7 @@ public class SmsListActivity extends AppCompatActivity {
     private void initUi() {
         // list
         listView = (ListView) findViewById(R.id.smsList);
+        adapter = new SmsListAdapter(this, msgs);
         listView.setAdapter(adapter);
 
         // fab

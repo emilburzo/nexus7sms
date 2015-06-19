@@ -26,10 +26,10 @@ public class ContactsActivity extends AppCompatActivity {
     private final String TAG = this.getClass().getSimpleName();
 
     private List<Contact> contacts = new ArrayList<>();
-    private ContactsAdapter contactsAdapter = new ContactsAdapter(this, contacts);
+    private ContactsAdapter adapter;
 
     private ListView listView;
-    private EditText contactsSearch;
+    private EditText search;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,12 +47,13 @@ public class ContactsActivity extends AppCompatActivity {
 
     private void initUi() {
         // list
-        listView = (ListView) findViewById(R.id.contactsList);
-        listView.setAdapter(contactsAdapter);
+        listView = (ListView) findViewById(R.id.list);
+        adapter = new ContactsAdapter(this, contacts);
+        listView.setAdapter(adapter);
 
         // search
-        contactsSearch = (EditText) findViewById(R.id.contactsSearch);
-        contactsSearch.addTextChangedListener(new ContactsSearch());
+        search = (EditText) findViewById(R.id.search);
+        search.addTextChangedListener(new ContactsSearch());
     }
 
     private void initHandlers() {
@@ -85,7 +86,7 @@ public class ContactsActivity extends AppCompatActivity {
         selection += "replace(replace(replace(replace(" + ContactsContract.CommonDataKinds.Phone.NUMBER + ", '+', ''), '-', ''), '(', ''), ')', '')" + " LIKE ?";
 
         // filtering args
-        String selectionArg = "%" + contactsSearch.getText() + "%";
+        String selectionArg = "%" + search.getText() + "%";
         String[] selectionArgs = new String[]{selectionArg, selectionArg, selectionArg};
 
         // order by
@@ -108,8 +109,8 @@ public class ContactsActivity extends AppCompatActivity {
 
         phones.close();
 
-        if (contactsAdapter != null) {
-            contactsAdapter.notifyDataSetChanged();
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -121,7 +122,7 @@ public class ContactsActivity extends AppCompatActivity {
     }
 
     public void doClearSearch(View view) {
-        contactsSearch.setText("");
+        search.setText("");
 
         loadContacts();
     }
