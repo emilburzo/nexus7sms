@@ -5,6 +5,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -51,12 +53,56 @@ public class SmsViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sms_view);
 
+        extractPhoneNumber();
+
+        setTitleAndColor();
+
+        initUi();
+
+        initHandlers();
+
+        Log.i(TAG, String.format("Found phone number: '%s'", phoneNo));
+
+
+        loadMessages();
+
+        initHandlers();
+    }
+
+    private void setTitleAndColor() {
+        List<String> colors = new ArrayList<>();
+        colors.add("#FF33B5E5");
+        colors.add("#FFAA66CC");
+        colors.add("#FF99CC00");
+        colors.add("#FFFFBB33");
+        colors.add("#FFFF4444");
+        colors.add("#FF0099CC");
+        colors.add("#FF9933CC");
+        colors.add("#FF669900");
+        colors.add("#FFFF8800");
+        colors.add("#FFCC0000");
+
+        String color = colors.get(Integer.valueOf(phoneNo.substring(phoneNo.length() - 1)));
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
+
+        getSupportActionBar().setTitle(Utils.getContactName(this, phoneNo));
+    }
+
+    private void initUi() {
         listView = (ListView) findViewById(R.id.smsList);
         msgBody = (EditText) findViewById(R.id.msgBody);
 
         adapter = new SmsViewAdapter(this, msgs);
         listView.setAdapter(adapter);
+    }
 
+    private void extractPhoneNumber() {
+        Intent intent = getIntent();
+        phoneNo = intent.getStringExtra(Constants.Intents.PHONE_NUMBER);
+    }
+
+    private void initHandlers() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -71,20 +117,6 @@ public class SmsViewActivity extends AppCompatActivity {
 //                finish();
             }
         });
-
-        Intent intent = getIntent();
-        phoneNo = intent.getStringExtra(Constants.Intents.PHONE_NUMBER);
-
-        Log.i(TAG, String.format("Found phone number: '%s'", phoneNo));
-
-        getSupportActionBar().setTitle(Utils.getContactName(this, phoneNo));
-
-        loadMessages();
-
-        initHandlers();
-    }
-
-    private void initHandlers() {
 
         //////// todo only when sending?
         sendBroadcastReceiver = new BroadcastReceiver() {
