@@ -85,7 +85,6 @@ public class SmsViewActivity extends AppCompatActivity {
         String color = colors.get(Integer.valueOf(phoneNo.substring(phoneNo.length() - 1)));
 
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
-
         getSupportActionBar().setTitle(Utils.getContactName(this, phoneNo));
     }
 
