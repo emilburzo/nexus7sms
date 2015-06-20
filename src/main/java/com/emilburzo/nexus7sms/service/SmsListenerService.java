@@ -35,6 +35,7 @@ public class SmsListenerService extends NotificationListenerService {
             Log.i("msgBody", msgBody);
 
             Utils.persistSmsIn(this, phoneNumber, msgBody);
+//            Utils.persistSmsIn(this, "+40742622603", msgBody); // todo fixme wtf
 
             notifyNewMessage();
         }
