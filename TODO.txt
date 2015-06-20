@@ -2,3 +2,5 @@
 - cleanup activities la AndroidManifest.xml
 - //        query.equalTo("phone", phoneNo); // todo fixme
 - sound effects: message sent/received
+- opțiune cancel notification (basicsmsreceiver)
+- notification new sms?

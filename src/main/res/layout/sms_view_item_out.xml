@@ -10,20 +10,11 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/phone"
-        android:layout_weight="1"
-        android:gravity="start"
-        android:layout_gravity="center"
-        style="@android:style/TextAppearance.Medium"
-        />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
         android:id="@+id/body"
-        android:layout_weight="1"
-        android:gravity="start"
+        android:gravity="end"
         android:layout_gravity="center"
+        android:background="#d3d3d3"
+        style="@android:style/TextAppearance.Medium"
         />
 
 </LinearLayout>
