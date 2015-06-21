@@ -6,3 +6,4 @@
 - opțiune cancel notification (basicsmsreceiver)
 - notification new sms?
 - setup donation system
+- deny send empty msg
