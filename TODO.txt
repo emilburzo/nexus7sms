@@ -1,6 +1,8 @@
 - ceva watcher/notifier dacă vin mesaje când ești în activity
 - cleanup activities la AndroidManifest.xml
 - //        query.equalTo("phone", phoneNo); // todo fixme
+- mesaj OUT la contact cu 0744112233, mesaj IN cu +40744112233, apar ca și două conversații diferite
 - sound effects: message sent/received
 - opțiune cancel notification (basicsmsreceiver)
 - notification new sms?
+- setup donation system
