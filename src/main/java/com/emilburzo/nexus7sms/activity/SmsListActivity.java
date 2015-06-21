@@ -135,6 +135,7 @@ public class SmsListActivity extends AppCompatActivity {
 
     private boolean phoneNoExists(String phone) {
         for (Sms msg : msgs) {
+//            if (PhoneNumberUtils.compare(msg.phone, phone)) {
             if (msg.phone.equalsIgnoreCase(phone)) {
                 return true;
             }
