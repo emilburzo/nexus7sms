@@ -52,11 +52,15 @@ dependencies {
     compile 'com.android.support:support-v4:22.1.1'
     compile 'io.realm:realm-android:0.80.3'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
-
+    compile 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 }
 
 repositories {
     jcenter()
+
+    maven {
+        url 'http://dl.bintray.com/amulyakhare/maven'
+    }
 }
 
 // let's keep our signing keys private

@@ -1,6 +1,7 @@
 package com.emilburzo.nexus7sms.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,14 @@ public class SmsListAdapter extends BaseAdapter {
         Sms sms = list.get(position);
 
         ImageView picture = (ImageView) vi.findViewById(R.id.picture);
-        picture.setImageBitmap(Utils.getContactPhoto(context, Utils.getContactId(context, sms.phone)));
+
+        Bitmap photo = Utils.getContactPhoto(context, sms.phone);
+
+        if (photo == null) {
+            picture.setImageDrawable(Utils.getContactTextPhoto(context, sms.phone));
+        } else {
+            picture.setImageBitmap(photo);
+        }
 
         TextView name = (TextView) vi.findViewById(R.id.phone);
         name.setText(Utils.getContactName(context, sms.phone));

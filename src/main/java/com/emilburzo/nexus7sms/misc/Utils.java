@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.emilburzo.nexus7sms.BuildConfig;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.model.SmsModel;
@@ -17,7 +19,9 @@ import io.realm.Realm;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class Utils {
@@ -119,12 +123,15 @@ public class Utils {
         return contactId;
     }
 
-    public static Bitmap getContactPhoto(Context context, String contactId) {
-        Bitmap photo = BitmapFactory.decodeResource(context.getResources(), R.drawable.contact_picture);
+    public static Bitmap getContactPhoto(Context context, String phone) {
+        String contactId = getContactId(context, phone);
 
+        // no contact found for given phone number, return boring profile pic
         if (contactId == null) {
-            return photo;
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.contact_picture);
         }
+
+        Bitmap photo = null;
 
         ContentResolver contentResolver = context.getContentResolver();
 
@@ -134,6 +141,7 @@ public class Utils {
             inputStream = ContactsContract.Contacts.openContactPhotoInputStream(contentResolver, ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, Long.valueOf(contactId)));
 
             if (inputStream != null) {
+                // found contact photo
                 photo = BitmapFactory.decodeStream(inputStream);
                 inputStream.close();
             }
@@ -157,6 +165,32 @@ public class Utils {
         }
 
         return photo;
+    }
+
+    public static String getColor(String phone) {
+        List<String> colors = new ArrayList<>();
+        colors.add("#FF33B5E5");
+        colors.add("#FFAA66CC");
+        colors.add("#FF99CC00");
+        colors.add("#FFFFBB33");
+        colors.add("#FFFF4444");
+        colors.add("#FF0099CC");
+        colors.add("#FF9933CC");
+        colors.add("#FF669900");
+        colors.add("#FFFF8800");
+        colors.add("#FFCC0000");
+
+        String color = colors.get(Integer.valueOf(phone.substring(phone.length() - 1)));
+
+        return color;
+    }
+
+    public static TextDrawable getContactTextPhoto(Context context, String phone) {
+        String contactFirstLetter = getContactName(context, phone).substring(0, 1);
+
+        TextDrawable drawable = TextDrawable.builder().buildRect(contactFirstLetter, Color.parseColor(getColor(phone)));
+
+        return drawable;
     }
 
 }

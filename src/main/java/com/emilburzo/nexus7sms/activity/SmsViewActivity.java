@@ -70,21 +70,7 @@ public class SmsViewActivity extends AppCompatActivity {
     }
 
     private void setTitleAndColor() {
-        List<String> colors = new ArrayList<>();
-        colors.add("#FF33B5E5");
-        colors.add("#FFAA66CC");
-        colors.add("#FF99CC00");
-        colors.add("#FFFFBB33");
-        colors.add("#FFFF4444");
-        colors.add("#FF0099CC");
-        colors.add("#FF9933CC");
-        colors.add("#FF669900");
-        colors.add("#FFFF8800");
-        colors.add("#FFCC0000");
-
-        String color = colors.get(Integer.valueOf(phoneNo.substring(phoneNo.length() - 1)));
-
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(Utils.getColor(phoneNo))));
         getSupportActionBar().setTitle(Utils.getContactName(this, phoneNo));
     }
 
