@@ -100,6 +100,34 @@ public class Utils {
         return contactName;
     }
 
+    public static String getContactPhone(Context context, String phoneNumber) {
+        ContentResolver cr = context.getContentResolver();
+
+        Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
+
+        Cursor cursor = cr.query(uri, new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+
+        if (cursor == null) {
+            return null;
+        }
+
+        String contactName = null;
+
+        if (cursor.moveToFirst()) {
+            contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+        }
+
+        if (!cursor.isClosed()) {
+            cursor.close();
+        }
+
+        if (contactName == null || contactName.trim().isEmpty()) {
+            return phoneNumber;
+        }
+
+        return contactName;
+    }
+
     public static String getContactId(Context context, String phoneNumber) {
         ContentResolver contentResolver = context.getContentResolver();
 
