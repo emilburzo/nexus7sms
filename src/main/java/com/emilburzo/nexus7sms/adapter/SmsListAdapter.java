@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.misc.Utils;
@@ -49,13 +50,16 @@ public class SmsListAdapter extends BaseAdapter {
             vi = inflater.inflate(R.layout.sms_list_item, null);
         }
 
-        Sms item = list.get(position);
+        Sms sms = list.get(position);
+
+        ImageView picture = (ImageView) vi.findViewById(R.id.picture);
+        picture.setImageBitmap(Utils.getContactPhoto(context, Utils.getContactId(context, sms.phone)));
 
         TextView name = (TextView) vi.findViewById(R.id.phone);
-        name.setText(Utils.getContactName(context, item.phone));
+        name.setText(Utils.getContactName(context, sms.phone));
 
         TextView phone = (TextView) vi.findViewById(R.id.body);
-        phone.setText(item.body);
+        phone.setText(sms.body);
 
         return vi;
     }
