@@ -20,7 +20,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="5dp"
+        android:padding="20dp"
         android:id="@+id/msgInput"
         >
 
@@ -34,6 +34,19 @@
             android:padding="5dp"
             android:background="#FFFFFF"
             android:hint="@string/sms_body_hint"
+            android:maxLength="160"
+            />
+
+        <TextView
+            android:id="@+id/msgLength"
+            android:layout_width="80dp"
+            android:layout_height="48dp"
+            android:text="0/160"
+            android:gravity="center"
+            android:layout_marginEnd="15dp"
+            android:background="#FFFFFF"
+            android:padding="5dp"
+            style="@android:style/TextAppearance.Medium"
             />
 
         <ImageButton
@@ -41,10 +54,11 @@
             android:layout_height="48dp"
             android:id="@+id/btnSend"
             android:src="@android:drawable/ic_menu_send"
-            android:background="?attr/selectableItemBackground"
+            android:background="@color/darkblue"
             android:layout_gravity="center"
             android:padding="5dp"
             android:onClick="doSendSms"
+
             />
 
     </LinearLayout>

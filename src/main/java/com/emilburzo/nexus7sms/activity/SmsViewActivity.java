@@ -11,12 +11,11 @@ import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.*;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.adapter.SmsViewAdapter;
 import com.emilburzo.nexus7sms.misc.Constants;
@@ -35,6 +34,8 @@ public class SmsViewActivity extends AppCompatActivity {
     private static final String SENT = "SMS_SENT";
     private static final String DELIVERED = "SMS_DELIVERED";
 
+    private static final int SMS_MAX_LENGTH = 160;
+
     private final String TAG = this.getClass().getSimpleName();
 
     private List<Sms> msgs = new ArrayList<>();
@@ -44,6 +45,7 @@ public class SmsViewActivity extends AppCompatActivity {
     private String phoneNo;
 
     private EditText msgBody;
+    private TextView msgLength;
 
     private BroadcastReceiver sendBroadcastReceiver;
     private BroadcastReceiver deliveryBroadcastReceiver;
@@ -77,6 +79,7 @@ public class SmsViewActivity extends AppCompatActivity {
     private void initUi() {
         listView = (ListView) findViewById(R.id.smsList);
         msgBody = (EditText) findViewById(R.id.msgBody);
+        msgLength = (TextView) findViewById(R.id.msgLength);
 
         adapter = new SmsViewAdapter(this, msgs);
         listView.setAdapter(adapter);
@@ -100,6 +103,23 @@ public class SmsViewActivity extends AppCompatActivity {
 //                intent.putExtra(Constants.Intents.PHONE_NUMBER, contact.phone);
 //                setResult(RESULT_OK, intent);
 //                finish();
+            }
+        });
+
+        msgBody.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                updateMessageLength();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -140,6 +160,14 @@ public class SmsViewActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+    private void updateMessageLength() {
+        msgLength.setText(getMessageLength());
+    }
+
+    private String getMessageLength() {
+        return String.format("%s/%s", msgBody.length(), SMS_MAX_LENGTH);
     }
 
     private void loadMessages() {
