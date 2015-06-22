@@ -20,18 +20,20 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:id="@+id/msgInput"
         >
 
         <EditText
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:inputType="text"
             android:id="@+id/msgBody"
             android:gravity="center"
             android:layout_weight="1"
-            android:hint="Enter message here"
+            android:padding="5dp"
+            android:background="#FFFFFF"
+            android:hint="@string/sms_body_hint"
             />
 
         <ImageButton
@@ -41,6 +43,7 @@
             android:src="@android:drawable/ic_menu_send"
             android:background="?attr/selectableItemBackground"
             android:layout_gravity="center"
+            android:padding="5dp"
             android:onClick="doSendSms"
             />
 
