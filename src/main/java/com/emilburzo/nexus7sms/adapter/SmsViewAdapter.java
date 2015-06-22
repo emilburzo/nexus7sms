@@ -60,15 +60,11 @@ public class SmsViewAdapter extends BaseAdapter {
 
         ImageView picture = (ImageView) vi.findViewById(R.id.picture);
 
-//        if (sms.type.equals(Constants.SmsTypes.IN)) {
-            String contactId = Utils.getContactId(context, sms.phone);
-
-            if (contactId != null) {
-                picture.setImageBitmap(Utils.getContactPhoto(context, contactId));
-            }
-//        } else {
-//             todo set our picture
-//        }
+        if (sms.type.equals(Constants.SmsTypes.IN)) {
+            picture.setImageBitmap(Utils.getContactPhoto(context, Utils.getContactId(context, sms.phone)));
+        } else {
+            picture.setImageBitmap(Utils.getProfilePhoto(context));
+        }
 
         TextView phone = (TextView) vi.findViewById(R.id.body);
         phone.setText(sms.body);
