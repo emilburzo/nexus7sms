@@ -7,3 +7,4 @@
 - notification new sms?
 - setup donation system
 - deny send empty msg
+- color generator mai corect cu hashcode probabil (https://github.com/amulyakhare/TextDrawable#5-built-in-color-generator)
