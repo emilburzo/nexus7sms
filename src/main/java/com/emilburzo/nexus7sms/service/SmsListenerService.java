@@ -1,11 +1,8 @@
 package com.emilburzo.nexus7sms.service;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.content.LocalBroadcastManager;
-import com.emilburzo.nexus7sms.misc.Constants;
 import com.emilburzo.nexus7sms.misc.Utils;
 
 public class SmsListenerService extends NotificationListenerService {
@@ -36,15 +33,10 @@ public class SmsListenerService extends NotificationListenerService {
             Utils.persistSmsIn(this, Utils.getContactPhone(this, phoneNumber), msgBody);
 //            Utils.persistSmsIn(this, "+40742622603", msgBody); // todo fixme wtf
 
-            notifyNewMessage();
+            Utils.notifyMessagesChanged(getApplicationContext());
         }
     }
 
-    private void notifyNewMessage() {
-        Intent intent = new Intent(Constants.IntentActions.MSG_RECEIVED);
-
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-    }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {

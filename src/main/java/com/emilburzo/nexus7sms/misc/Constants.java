@@ -4,10 +4,17 @@ public class Constants {
 
     public class Intents {
         public static final String PHONE_NUMBER = "com.emilburzo.nexus7sms.PHONE_NUMBER";
+        public static final String SEND_SMS = "SEND_SMS";
     }
 
     public static final class IntentActions {
-        public static final String MSG_RECEIVED = "MSG_RECV";
+        public static final String MESSAGES_CHANGED = "MSG_CHANGED";
+    }
+
+    public static final class IntentExtras {
+        public static final String PHONE = "phone";
+        public static final String MESSAGE = "msg";
+        public static final String UUID = "uuid";
     }
 
     public static final class SmsTypes {
@@ -27,4 +34,6 @@ public class Constants {
     public static final class UTF8 {
         public static final String CHECKMARK = "✓";
     }
+
+
 }

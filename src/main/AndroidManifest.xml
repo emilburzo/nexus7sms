@@ -56,6 +56,12 @@
                 <action android:name="android.service.notification.NotificationListenerService"/>
             </intent-filter>
         </service>
+
+        <service
+            android:name=".service.SmsService"
+            android:label="Nexus 7 SMS Service">
+        </service>
+
     </application>
 
 </manifest>

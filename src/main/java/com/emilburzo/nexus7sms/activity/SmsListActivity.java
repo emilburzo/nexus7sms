@@ -16,6 +16,7 @@ import com.emilburzo.nexus7sms.adapter.SmsListAdapter;
 import com.emilburzo.nexus7sms.misc.Constants;
 import com.emilburzo.nexus7sms.model.SmsModel;
 import com.emilburzo.nexus7sms.pojo.Sms;
+import com.emilburzo.nexus7sms.service.SmsService;
 import com.melnykov.fab.FloatingActionButton;
 import io.realm.Realm;
 import io.realm.RealmQuery;
@@ -39,6 +40,8 @@ public class SmsListActivity extends AppCompatActivity {
 
         setContentView(R.layout.sms_list);
 
+        startBackendService();
+
         initUi();
 
         initHandlers();
@@ -46,6 +49,11 @@ public class SmsListActivity extends AppCompatActivity {
         checkForNotificationAccess();
 
         loadMessages();
+    }
+
+    private void startBackendService() {
+        Intent i = new Intent(this, SmsService.class);
+        startService(i);
     }
 
     private void initUi() {
@@ -148,7 +156,7 @@ public class SmsListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver, new IntentFilter(Constants.IntentActions.MSG_RECEIVED));
+        LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver, new IntentFilter(Constants.IntentActions.MESSAGES_CHANGED));
 
         loadMessages();
     }

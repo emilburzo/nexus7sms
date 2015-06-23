@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -269,6 +270,12 @@ public class Utils {
     public static String formatDate(Date date) {
         DateFormat df = DateFormat.getDateTimeInstance();
         return df.format(date);
+    }
+
+    public static void notifyMessagesChanged(Context context) {
+        Intent intent = new Intent(Constants.IntentActions.MESSAGES_CHANGED);
+
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
 }

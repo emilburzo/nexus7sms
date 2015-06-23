@@ -1,7 +1,5 @@
 package com.emilburzo.nexus7sms.activity;
 
-import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +8,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -26,9 +23,7 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class SmsViewActivity extends AppCompatActivity {
 
@@ -47,9 +42,6 @@ public class SmsViewActivity extends AppCompatActivity {
 
     private EditText msgBody;
     private TextView msgLength;
-
-    private Map<String, SendBroadcastReceiver> sendRecvs = new HashMap<>();
-    private Map<String, DeliveryBroadcastReceiver> deliveryRecvs = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -165,7 +157,7 @@ public class SmsViewActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver, new IntentFilter(Constants.IntentActions.MSG_RECEIVED));
+        LocalBroadcastManager.getInstance(this).registerReceiver(msgReceiver, new IntentFilter(Constants.IntentActions.MESSAGES_CHANGED));
 
         loadMessages();
     }
@@ -198,23 +190,13 @@ public class SmsViewActivity extends AppCompatActivity {
     }
 
     private void sendSms(String phone, String message, String uuid) {
-        // status receivers
-        SendBroadcastReceiver sendRecv = new SendBroadcastReceiver(uuid);
-        DeliveryBroadcastReceiver deliveryRecv = new DeliveryBroadcastReceiver(uuid);
+        Intent sendSms = new Intent(Constants.Intents.SEND_SMS);
 
-        sendRecvs.put(uuid, sendRecv);
-        deliveryRecvs.put(uuid, deliveryRecv);
+        sendSms.putExtra(Constants.IntentExtras.PHONE, phone);
+        sendSms.putExtra(Constants.IntentExtras.MESSAGE, message);
+        sendSms.putExtra(Constants.IntentExtras.UUID, uuid);
 
-        registerReceiver(sendRecv, new IntentFilter(SENT));
-        registerReceiver(deliveryRecv, new IntentFilter(DELIVERED));
-
-        // sms send pending intents
-        PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
-        PendingIntent deliveryIntent = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
-
-        // actual sms send
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phone, null, message, sentIntent, deliveryIntent);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(sendSms);
     }
 
     private BroadcastReceiver msgReceiver = new BroadcastReceiver() {
@@ -224,82 +206,5 @@ public class SmsViewActivity extends AppCompatActivity {
         }
     };
 
-    class SendBroadcastReceiver extends BroadcastReceiver {
 
-        private final String uuid;
-
-        public SendBroadcastReceiver(String uuid) {
-            this.uuid = uuid;
-        }
-
-        @Override
-        public void onReceive(Context arg0, Intent arg1) {
-            switch (getResultCode()) {
-                case Activity.RESULT_OK:
-                    onSmsOk();
-                    break;
-                case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                    onSmsFail();
-                    break;
-                case SmsManager.RESULT_ERROR_NO_SERVICE:
-                    onSmsFail();
-                    break;
-                case SmsManager.RESULT_ERROR_NULL_PDU:
-                    onSmsFail();
-                    break;
-                case SmsManager.RESULT_ERROR_RADIO_OFF:
-                    onSmsFail();
-                    break;
-            }
-
-            unregisterReceiver(this);
-        }
-
-        private void onSmsOk() {
-            Utils.debug(TAG, "SMS sent");
-        }
-
-        private void onSmsFail() {
-            Utils.debug(TAG, "SMS fail");
-
-            Utils.markSmsNotSent(getApplicationContext(), uuid);
-
-            loadMessages();
-        }
-    }
-
-    class DeliveryBroadcastReceiver extends BroadcastReceiver {
-
-        private final String uuid;
-
-        public DeliveryBroadcastReceiver(String uuid) {
-            this.uuid = uuid;
-        }
-
-        @Override
-        public void onReceive(Context arg0, Intent arg1) {
-            switch (getResultCode()) {
-                case Activity.RESULT_OK:
-                    onSmsDelivered();
-                    break;
-                case Activity.RESULT_CANCELED:
-                    onSmsNotDelivered();
-                    break;
-            }
-
-            unregisterReceiver(this);
-        }
-
-        private void onSmsDelivered() {
-            Utils.debug(TAG, "SMS has been delivered");
-
-            Utils.markSmsDelivered(getApplicationContext(), uuid);
-
-            loadMessages();
-        }
-
-        private void onSmsNotDelivered() {
-            Utils.debug(TAG, "SMS not delivered");
-        }
-    }
 }
