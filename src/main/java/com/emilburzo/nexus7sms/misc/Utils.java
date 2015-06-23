@@ -19,6 +19,7 @@ import io.realm.Realm;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -203,6 +204,11 @@ public class Utils {
         String contactFirstLetter = getContactName(context, phone).substring(0, 1);
 
         return TextDrawable.builder().buildRect(contactFirstLetter, getColor(phone));
+    }
+
+    public static String formatDate(Date date) {
+        DateFormat df = DateFormat.getDateTimeInstance();
+        return df.format(date);
     }
 
 }

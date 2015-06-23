@@ -76,6 +76,9 @@ public class SmsViewAdapter extends BaseAdapter {
         TextView body = (TextView) vi.findViewById(R.id.body);
         body.setText(sms.body);
 
+        TextView date = (TextView) vi.findViewById(R.id.date);
+        date.setText(Utils.formatDate(sms.timestamp));
+
         return vi;
     }
 
