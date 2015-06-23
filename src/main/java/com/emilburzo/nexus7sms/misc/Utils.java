@@ -104,27 +104,27 @@ public class Utils {
 
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
 
-        Cursor cursor = cr.query(uri, new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+        Cursor cursor = cr.query(uri, new String[]{ContactsContract.PhoneLookup.NUMBER}, null, null, null);
 
         if (cursor == null) {
             return null;
         }
 
-        String contactName = null;
+        String number = null;
 
         if (cursor.moveToFirst()) {
-            contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.DISPLAY_NAME));
+            number = cursor.getString(cursor.getColumnIndex(ContactsContract.PhoneLookup.NUMBER));
         }
 
         if (!cursor.isClosed()) {
             cursor.close();
         }
 
-        if (contactName == null || contactName.trim().isEmpty()) {
+        if (number == null || number.trim().isEmpty()) {
             return phoneNumber;
         }
 
-        return contactName;
+        return number;
     }
 
     public static String getContactId(Context context, String phoneNumber) {
