@@ -59,6 +59,7 @@ public class SmsViewAdapter extends BaseAdapter {
 
         Sms sms = list.get(position);
 
+        // picture
         ImageView picture = (ImageView) vi.findViewById(R.id.picture);
 
         if (sms.type.equals(Constants.SmsTypes.IN)) {
@@ -73,11 +74,26 @@ public class SmsViewAdapter extends BaseAdapter {
             picture.setImageBitmap(Utils.getProfilePhoto(context));
         }
 
+        // body
         TextView body = (TextView) vi.findViewById(R.id.body);
         body.setText(sms.body);
 
+        // timestamp
         TextView date = (TextView) vi.findViewById(R.id.date);
-        date.setText(Utils.formatDate(sms.timestamp));
+        String timestamp = Utils.formatDate(sms.timestamp);
+
+        // add checkmark for delivered messages
+        if (sms.delivered) {
+            timestamp = timestamp + " " + Constants.UTF8.CHECKMARK;
+        }
+
+        date.setText(timestamp);
+
+        // send failure
+        if (sms.type.equals(Constants.SmsTypes.OUT) && !sms.sent) {
+            TextView sendError = (TextView) vi.findViewById(R.id.sendError);
+            sendError.setVisibility(View.VISIBLE);
+        }
 
         return vi;
     }

@@ -16,6 +16,8 @@ import com.emilburzo.nexus7sms.BuildConfig;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.model.SmsModel;
 import io.realm.Realm;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -65,6 +67,7 @@ public class Utils {
             sms.setPhone(phoneNo);
             sms.setTimestamp(new Date());
             sms.setType(type);
+            sms.setSent(true); // assume we can send, mark as fail if not, when actually sending
 
             realm.commitTransaction();
         } finally {
@@ -74,6 +77,55 @@ public class Utils {
         }
 
         return uuid;
+    }
+
+    public static void markSmsDelivered(Context context, String uuid) {
+        Realm realm = Realm.getInstance(context);
+
+        // Build the query looking at all users:
+        RealmQuery<SmsModel> query = realm.where(SmsModel.class);
+
+        // Add query conditions:
+        query.equalTo("uuid", uuid);
+
+        // Execute the query:
+        RealmResults<SmsModel> results = query.findAll();
+
+        Utils.debug(TAG, String.format("Found '%d' results for uuid '%s', marking as delivered", results.size(), uuid));
+
+        if (!results.isEmpty()) {
+            SmsModel result = results.first();
+
+            realm.beginTransaction();
+            result.setDelivered(true);
+            realm.commitTransaction();
+        }
+        realm.close();
+    }
+
+    public static void markSmsNotSent(Context context, String uuid) {
+        Realm realm = Realm.getInstance(context);
+
+        // Build the query looking at all users:
+        RealmQuery<SmsModel> query = realm.where(SmsModel.class);
+
+        // Add query conditions:
+        query.equalTo("uuid", uuid);
+
+        // Execute the query:
+        RealmResults<SmsModel> results = query.findAll();
+
+        Utils.debug(TAG, String.format("Found '%d' results for uuid '%s', marking as sent", results.size(), uuid));
+
+        if (!results.isEmpty()) {
+            SmsModel result = results.first();
+
+            realm.beginTransaction();
+            result.setSent(false);
+            realm.commitTransaction();
+        }
+
+        realm.close();
     }
 
     public static String getContactName(Context context, String phoneNumber) {

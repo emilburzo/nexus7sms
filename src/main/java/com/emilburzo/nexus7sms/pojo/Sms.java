@@ -11,7 +11,8 @@ public class Sms {
     public String phone; // phone number from/to
     public Date timestamp; // when it was received/sent
     public String type; // 'in' or 'out'
-    public boolean sent; // delivery notification for 'out'
+    public boolean sent; // sent notification for 'out'
+    public boolean delivered; // delivery notification for 'out'
 
     public Sms(SmsModel smsModel) {
         this.uuid = smsModel.getUuid();
@@ -20,5 +21,6 @@ public class Sms {
         this.timestamp = smsModel.getTimestamp();
         this.type = smsModel.getType();
         this.sent = smsModel.isSent();
+        this.delivered = smsModel.isDelivered();
     }
 }

@@ -11,7 +11,8 @@ public class SmsModel extends RealmObject {
     private String phone; // phone number to
     private Date timestamp; // when it was received/sent
     private String type; // 'in' or 'out'
-    private boolean sent; // delivery notification for 'out'
+    private boolean sent; // sent notification for 'out'
+    private boolean delivered; // delivery notification for 'out'
 
     public String getUuid() {
         return uuid;
@@ -61,4 +62,11 @@ public class SmsModel extends RealmObject {
         this.sent = sent;
     }
 
+    public boolean isDelivered() {
+        return delivered;
+    }
+
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
+    }
 }

@@ -34,6 +34,17 @@
             style="@android:style/TextAppearance.Small"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sendError"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="end"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:text="could not send message"
+            />
+
     </LinearLayout>
 
     <ImageView

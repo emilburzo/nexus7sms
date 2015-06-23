@@ -26,7 +26,9 @@ import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SmsViewActivity extends AppCompatActivity {
 
@@ -45,6 +47,9 @@ public class SmsViewActivity extends AppCompatActivity {
 
     private EditText msgBody;
     private TextView msgLength;
+
+    private Map<String, SendBroadcastReceiver> sendRecvs = new HashMap<>();
+    private Map<String, DeliveryBroadcastReceiver> deliveryRecvs = new HashMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -197,7 +202,9 @@ public class SmsViewActivity extends AppCompatActivity {
         SendBroadcastReceiver sendRecv = new SendBroadcastReceiver(uuid);
         DeliveryBroadcastReceiver deliveryRecv = new DeliveryBroadcastReceiver(uuid);
 
-        // todo unregister
+        sendRecvs.put(uuid, sendRecv);
+        deliveryRecvs.put(uuid, deliveryRecv);
+
         registerReceiver(sendRecv, new IntentFilter(SENT));
         registerReceiver(deliveryRecv, new IntentFilter(DELIVERED));
 
@@ -229,21 +236,35 @@ public class SmsViewActivity extends AppCompatActivity {
         public void onReceive(Context arg0, Intent arg1) {
             switch (getResultCode()) {
                 case Activity.RESULT_OK:
-                    Toast.makeText(getBaseContext(), getString(R.string.sent_smsSent) + uuid, Toast.LENGTH_LONG).show();
+                    onSmsOk();
                     break;
                 case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                    Toast.makeText(getBaseContext(), getString(R.string.sent_genericError) + uuid, Toast.LENGTH_LONG).show();
+                    onSmsFail();
                     break;
                 case SmsManager.RESULT_ERROR_NO_SERVICE:
-                    Toast.makeText(getBaseContext(), getString(R.string.sent_noService) + uuid, Toast.LENGTH_LONG).show();
+                    onSmsFail();
                     break;
                 case SmsManager.RESULT_ERROR_NULL_PDU:
-                    Toast.makeText(getBaseContext(), getString(R.string.sent_noPdu) + uuid, Toast.LENGTH_LONG).show();
+                    onSmsFail();
                     break;
                 case SmsManager.RESULT_ERROR_RADIO_OFF:
-                    Toast.makeText(getBaseContext(), getString(R.string.sent_radioOff) + uuid, Toast.LENGTH_LONG).show();
+                    onSmsFail();
                     break;
             }
+
+            unregisterReceiver(this);
+        }
+
+        private void onSmsOk() {
+            Utils.debug(TAG, "SMS sent");
+        }
+
+        private void onSmsFail() {
+            Utils.debug(TAG, "SMS fail");
+
+            Utils.markSmsNotSent(getApplicationContext(), uuid);
+
+            loadMessages();
         }
     }
 
@@ -259,12 +280,26 @@ public class SmsViewActivity extends AppCompatActivity {
         public void onReceive(Context arg0, Intent arg1) {
             switch (getResultCode()) {
                 case Activity.RESULT_OK:
-                    Toast.makeText(getBaseContext(), getString(R.string.delivery_ok) + uuid, Toast.LENGTH_LONG).show();
+                    onSmsDelivered();
                     break;
                 case Activity.RESULT_CANCELED:
-                    Toast.makeText(getBaseContext(), getString(R.string.delivery_fail) + uuid, Toast.LENGTH_LONG).show();
+                    onSmsNotDelivered();
                     break;
             }
+
+            unregisterReceiver(this);
+        }
+
+        private void onSmsDelivered() {
+            Utils.debug(TAG, "SMS has been delivered");
+
+            Utils.markSmsDelivered(getApplicationContext(), uuid);
+
+            loadMessages();
+        }
+
+        private void onSmsNotDelivered() {
+            Utils.debug(TAG, "SMS not delivered");
         }
     }
 }

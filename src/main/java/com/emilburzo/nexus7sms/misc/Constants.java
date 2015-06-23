@@ -23,4 +23,8 @@ public class Constants {
     public static final class SmsFields {
         public static final String TIMESTAMP = "timestamp";
     }
+
+    public static final class UTF8 {
+        public static final String CHECKMARK = "✓";
+    }
 }
