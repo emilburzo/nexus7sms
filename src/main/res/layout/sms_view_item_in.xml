@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="100dp"
                 android:padding="15dp"
                 android:gravity="start"
                 android:background="#ededed"
@@ -14,17 +13,36 @@
         android:id="@+id/picture"
         android:layout_marginEnd="10dp"
         android:contentDescription="@string/avatar_content_description"
+        android:layout_centerVertical="true"
         />
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/body"
-        android:background="@drawable/round_border"
+        android:orientation="vertical"
         android:layout_toEndOf="@id/picture"
         android:layout_centerVertical="true"
         android:padding="10dp"
-        style="@android:style/TextAppearance.Medium"
-        />
+        android:background="@drawable/round_border"
+        android:layout_marginEnd="200dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/body"
+            style="@android:style/TextAppearance.Medium"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/date"
+            android:text="29 jul 2015 34:21:34"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="start"
+            />
+    </LinearLayout>
+
 
 </RelativeLayout>
