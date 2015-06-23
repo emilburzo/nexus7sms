@@ -1,6 +1,7 @@
 package com.emilburzo.nexus7sms.activity;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.emilburzo.nexus7sms.R;
@@ -46,9 +46,6 @@ public class SmsViewActivity extends AppCompatActivity {
     private EditText msgBody;
     private TextView msgLength;
 
-    private BroadcastReceiver sendBroadcastReceiver;
-    private BroadcastReceiver deliveryBroadcastReceiver;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,17 +59,16 @@ public class SmsViewActivity extends AppCompatActivity {
 
         initHandlers();
 
-        Log.i(TAG, String.format("Found phone number: '%s'", phoneNo));
-
-
         loadMessages();
 
         initHandlers();
     }
 
     private void setTitleAndColor() {
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Utils.getColor(phoneNo)));
-        getSupportActionBar().setTitle(Utils.getContactName(this, phoneNo));
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Utils.getColor(phoneNo)));
+            getSupportActionBar().setTitle(Utils.getContactName(this, phoneNo));
+        }
     }
 
     private void initUi() {
@@ -87,6 +83,8 @@ public class SmsViewActivity extends AppCompatActivity {
     private void extractPhoneNumber() {
         Intent intent = getIntent();
         phoneNo = intent.getStringExtra(Constants.Intents.PHONE_NUMBER);
+
+        Utils.debug(TAG, String.format("Found phone number: '%s'", phoneNo));
     }
 
     private void initHandlers() {
@@ -96,12 +94,8 @@ public class SmsViewActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Sms sms = (Sms) listView.getItemAtPosition(position);
 
+                // todo
                 Toast.makeText(getApplicationContext(), sms.body, Toast.LENGTH_LONG).show();
-
-//                Intent intent = new Intent(LookupContactActivity.this, SmsActivity.class);
-//                intent.putExtra(Constants.Intents.PHONE_NUMBER, contact.phone);
-//                setResult(RESULT_OK, intent);
-//                finish();
             }
         });
 
@@ -121,44 +115,6 @@ public class SmsViewActivity extends AppCompatActivity {
 
             }
         });
-
-        //////// todo only when sending?
-        sendBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context arg0, Intent arg1) {
-                switch (getResultCode()) {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), getString(R.string.sent_smsSent), Toast.LENGTH_LONG).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(getBaseContext(), getString(R.string.sent_genericError), Toast.LENGTH_LONG).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(getBaseContext(), getString(R.string.sent_noService), Toast.LENGTH_LONG).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_NULL_PDU:
-                        Toast.makeText(getBaseContext(), getString(R.string.sent_noPdu), Toast.LENGTH_LONG).show();
-                        break;
-                    case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        Toast.makeText(getBaseContext(), getString(R.string.sent_radioOff), Toast.LENGTH_LONG).show();
-                        break;
-                }
-            }
-        };
-
-        deliveryBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context arg0, Intent arg1) {
-                switch (getResultCode()) {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), getString(R.string.delivery_ok), Toast.LENGTH_LONG).show();
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        Toast.makeText(getBaseContext(), getString(R.string.delivery_fail), Toast.LENGTH_LONG).show();
-                        break;
-                }
-            }
-        };
     }
 
     private void updateMessageLength() {
@@ -175,12 +131,10 @@ public class SmsViewActivity extends AppCompatActivity {
         // Build the query looking at all users:
         RealmQuery<SmsModel> query = realm.where(SmsModel.class);
 
-// Add query conditions:
-        query.equalTo("phone", phoneNo); // todo fixme
-//        query.or().equalTo("name", "Peter");
-//        query.sor
+        // Add query conditions:
+        query.equalTo("phone", phoneNo);
 
-// Execute the query:
+        // Execute the query:
         RealmResults<SmsModel> results = query.findAllSorted("timestamp", true);
 
         msgs.clear();
@@ -202,23 +156,6 @@ public class SmsViewActivity extends AppCompatActivity {
         listView.setSelection(adapter.getCount() - 1);
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//        LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                System.out.println("SmsViewActivity.onReceive");
-//                Log.i(TAG, "Local broadcast received");
-//
-//                loadMessages();
-//            }
-//        }, new IntentFilter("com.emilburzo.nexus7sms.Msg"));
-//
-//        loadMessages();
-//    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -236,22 +173,17 @@ public class SmsViewActivity extends AppCompatActivity {
     }
 
     public void doSendSms(View view) {
-//        final String phone = smsDestination.getText().toString();
         final String message = msgBody.getText().toString();
 
         if (message.trim().isEmpty()) {
             return;
         }
 
-//        if (!valid(phone, message)) {
-//            return;
-//        }
+        // realm db persist
+        String uuid = Utils.persistSmsOut(this, phoneNo, message);
 
         // GSM send
-        sendSms(phoneNo, message);
-
-        // realm db persist
-        Utils.persistSmsOut(this, phoneNo, message);
+        sendSms(phoneNo, message, uuid);
 
         // clear message
         msgBody.setText("");
@@ -260,13 +192,22 @@ public class SmsViewActivity extends AppCompatActivity {
         loadMessages();
     }
 
-    private void sendSms(String phone, String message) {
-        // todo
-//        PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
-//        PendingIntent deliveryIntent = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
-//
-//        SmsManager sms = SmsManager.getDefault();
-//        sms.sendTextMessage(phone, null, message, sentIntent, deliveryIntent);
+    private void sendSms(String phone, String message, String uuid) {
+        // status receivers
+        SendBroadcastReceiver sendRecv = new SendBroadcastReceiver(uuid);
+        DeliveryBroadcastReceiver deliveryRecv = new DeliveryBroadcastReceiver(uuid);
+
+        // todo unregister
+        registerReceiver(sendRecv, new IntentFilter(SENT));
+        registerReceiver(deliveryRecv, new IntentFilter(DELIVERED));
+
+        // sms send pending intents
+        PendingIntent sentIntent = PendingIntent.getBroadcast(this, 0, new Intent(SENT), 0);
+        PendingIntent deliveryIntent = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
+
+        // actual sms send
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(phone, null, message, sentIntent, deliveryIntent);
     }
 
     private BroadcastReceiver msgReceiver = new BroadcastReceiver() {
@@ -275,4 +216,55 @@ public class SmsViewActivity extends AppCompatActivity {
             loadMessages();
         }
     };
+
+    class SendBroadcastReceiver extends BroadcastReceiver {
+
+        private final String uuid;
+
+        public SendBroadcastReceiver(String uuid) {
+            this.uuid = uuid;
+        }
+
+        @Override
+        public void onReceive(Context arg0, Intent arg1) {
+            switch (getResultCode()) {
+                case Activity.RESULT_OK:
+                    Toast.makeText(getBaseContext(), getString(R.string.sent_smsSent) + uuid, Toast.LENGTH_LONG).show();
+                    break;
+                case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                    Toast.makeText(getBaseContext(), getString(R.string.sent_genericError) + uuid, Toast.LENGTH_LONG).show();
+                    break;
+                case SmsManager.RESULT_ERROR_NO_SERVICE:
+                    Toast.makeText(getBaseContext(), getString(R.string.sent_noService) + uuid, Toast.LENGTH_LONG).show();
+                    break;
+                case SmsManager.RESULT_ERROR_NULL_PDU:
+                    Toast.makeText(getBaseContext(), getString(R.string.sent_noPdu) + uuid, Toast.LENGTH_LONG).show();
+                    break;
+                case SmsManager.RESULT_ERROR_RADIO_OFF:
+                    Toast.makeText(getBaseContext(), getString(R.string.sent_radioOff) + uuid, Toast.LENGTH_LONG).show();
+                    break;
+            }
+        }
+    }
+
+    class DeliveryBroadcastReceiver extends BroadcastReceiver {
+
+        private final String uuid;
+
+        public DeliveryBroadcastReceiver(String uuid) {
+            this.uuid = uuid;
+        }
+
+        @Override
+        public void onReceive(Context arg0, Intent arg1) {
+            switch (getResultCode()) {
+                case Activity.RESULT_OK:
+                    Toast.makeText(getBaseContext(), getString(R.string.delivery_ok) + uuid, Toast.LENGTH_LONG).show();
+                    break;
+                case Activity.RESULT_CANCELED:
+                    Toast.makeText(getBaseContext(), getString(R.string.delivery_fail) + uuid, Toast.LENGTH_LONG).show();
+                    break;
+            }
+        }
+    }
 }

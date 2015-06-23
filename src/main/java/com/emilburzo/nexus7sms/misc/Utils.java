@@ -41,16 +41,17 @@ public class Utils {
         return str != null && str.length() > 0;
     }
 
-    public static void persistSmsIn(Context context, String phoneNo, String msgBody) {
-        persistSms(context, Constants.SmsTypes.IN, phoneNo, msgBody);
+    public static String persistSmsIn(Context context, String phoneNo, String msgBody) {
+        return persistSms(context, Constants.SmsTypes.IN, phoneNo, msgBody);
     }
 
-    public static void persistSmsOut(Context context, String phoneNo, String msgBody) {
-        persistSms(context, Constants.SmsTypes.OUT, phoneNo, msgBody);
+    public static String persistSmsOut(Context context, String phoneNo, String msgBody) {
+        return persistSms(context, Constants.SmsTypes.OUT, phoneNo, msgBody);
     }
 
-    private static void persistSms(Context context, String type, String phoneNo, String msgBody) {
+    private static String persistSms(Context context, String type, String phoneNo, String msgBody) {
         Realm realm = null;
+        String uuid = UUID.randomUUID().toString();
 
         try {
             realm = Realm.getInstance(context);
@@ -59,7 +60,7 @@ public class Utils {
 
             SmsModel sms = realm.createObject(SmsModel.class);
 
-            sms.setUuid(UUID.randomUUID().toString());
+            sms.setUuid(uuid);
             sms.setBody(msgBody);
             sms.setPhone(phoneNo);
             sms.setTimestamp(new Date());
@@ -71,6 +72,8 @@ public class Utils {
                 realm.close();
             }
         }
+
+        return uuid;
     }
 
     public static String getContactName(Context context, String phoneNumber) {
