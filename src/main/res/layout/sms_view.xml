@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:id="@+id/msgInput"
-        android:background="#FFFFFF"
+        android:background="@drawable/round_border"
         >
 
         <EditText
@@ -59,7 +59,7 @@
             android:layout_gravity="center"
             android:background="@drawable/sms_send_selector"
             android:onClick="doSendSms"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
             />
 
     </LinearLayout>
