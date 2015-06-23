@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -72,7 +71,7 @@ public class SmsViewActivity extends AppCompatActivity {
     }
 
     private void setTitleAndColor() {
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor(Utils.getColor(phoneNo))));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Utils.getColor(phoneNo)));
         getSupportActionBar().setTitle(Utils.getContactName(this, phoneNo));
     }
 

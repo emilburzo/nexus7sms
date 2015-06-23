@@ -7,11 +7,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.emilburzo.nexus7sms.BuildConfig;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.model.SmsModel;
@@ -19,9 +19,7 @@ import io.realm.Realm;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 public class Utils {
@@ -195,29 +193,16 @@ public class Utils {
         return photo;
     }
 
-    public static String getColor(String phone) {
-        List<String> colors = new ArrayList<>();
-        colors.add("#FF33B5E5");
-        colors.add("#FFAA66CC");
-        colors.add("#FF99CC00");
-        colors.add("#FFFFBB33");
-        colors.add("#FFFF4444");
-        colors.add("#FF0099CC");
-        colors.add("#FF9933CC");
-        colors.add("#FF669900");
-        colors.add("#FFFF8800");
-        colors.add("#FFCC0000");
+    public static int getColor(String phone) {
+        ColorGenerator generator = ColorGenerator.MATERIAL;
 
-        String color = colors.get(Integer.valueOf(phone.substring(phone.length() - 1)));
-
-        return color;
+        return generator.getColor(phone);
     }
 
     public static TextDrawable getContactTextPhoto(Context context, String phone) {
         String contactFirstLetter = getContactName(context, phone).substring(0, 1);
-        int color = Color.parseColor(getColor(phone));
 
-        return TextDrawable.builder().buildRect(contactFirstLetter, color);
+        return TextDrawable.builder().buildRect(contactFirstLetter, getColor(phone));
     }
 
 }
