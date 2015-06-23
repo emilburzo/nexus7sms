@@ -5,7 +5,8 @@
                 android:layout_marginEnd="100dp"
                 android:padding="15dp"
                 android:gravity="start"
-                android:background="#d3d3d3">
+                android:background="#ededed"
+    >
 
     <ImageView
         android:layout_width="60dp"

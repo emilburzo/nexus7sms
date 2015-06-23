@@ -3,7 +3,7 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:background="#d3d3d3"
+                android:background="#ededed"
     >
 
     <ListView
@@ -20,21 +20,25 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:padding="20dp"
+        android:padding="5dp"
         android:id="@+id/msgInput"
+        android:background="#FFFFFF"
         >
 
         <EditText
             android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:inputType="text"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:minLines="1"
+            android:maxLines="5"
             android:id="@+id/msgBody"
             android:gravity="center"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:padding="5dp"
-            android:background="#FFFFFF"
             android:hint="@string/sms_body_hint"
             android:maxLength="160"
+            android:background="#ffffff"
             />
 
         <TextView
@@ -43,9 +47,10 @@
             android:layout_height="48dp"
             android:text="0/160"
             android:gravity="center"
+            android:layout_gravity="center"
             android:layout_marginEnd="15dp"
-            android:background="#FFFFFF"
             android:padding="5dp"
+            android:textColor="#444444"
             style="@android:style/TextAppearance.Medium"
             />
 
@@ -54,8 +59,8 @@
             android:layout_height="48dp"
             android:id="@+id/btnSend"
             android:src="@android:drawable/ic_menu_send"
-            android:background="@color/darkblue"
             android:layout_gravity="center"
+            android:background="#ffffff"
             android:padding="5dp"
             android:onClick="doSendSms"
 
