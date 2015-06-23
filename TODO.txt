@@ -11,3 +11,4 @@
 - share support
 - delete SmsActivity
 - in app purchase
+- different icon for unknown numbers (than for 'me')
