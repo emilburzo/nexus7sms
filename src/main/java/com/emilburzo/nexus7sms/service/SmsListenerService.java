@@ -5,13 +5,14 @@ import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import com.emilburzo.nexus7sms.misc.Constants;
 import com.emilburzo.nexus7sms.misc.Utils;
 
 public class SmsListenerService extends NotificationListenerService {
 
     private static final String PACKAGE_BASIC_SMS_RECEIVER = "com.android.basicsmsreceiver";
+    private static final String ANDROID_TITLE = "android.title";
+    private static final String ANDROID_TEXT = "android.text";
 
     private String TAG = this.getClass().getSimpleName();
 
@@ -27,12 +28,10 @@ public class SmsListenerService extends NotificationListenerService {
 
         if (pack.equalsIgnoreCase(PACKAGE_BASIC_SMS_RECEIVER)) {
             Bundle extras = sbn.getNotification().extras;
-            String phoneNumber = extras.getString("android.title");
-            String msgBody = extras.getCharSequence("android.text").toString();
+            String phoneNumber = extras.getString(ANDROID_TITLE);
+            String msgBody = extras.getCharSequence(ANDROID_TEXT).toString();
 
-            Log.i("Package", pack);
-            Log.i("phoneNumber", phoneNumber);
-            Log.i("msgBody", msgBody);
+            Utils.debug(TAG, String.format("New message from '%s' with '%s'", phoneNumber, msgBody));
 
             Utils.persistSmsIn(this, Utils.getContactPhone(this, phoneNumber), msgBody);
 //            Utils.persistSmsIn(this, "+40742622603", msgBody); // todo fixme wtf

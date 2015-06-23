@@ -25,6 +25,8 @@ import java.util.UUID;
 
 public class Utils {
 
+    private static final String TAG = "Utils";
+
     public static String getPhoneNumber(Intent intent) {
         return intent.getStringExtra(Constants.Intents.PHONE_NUMBER);
     }
@@ -93,8 +95,11 @@ public class Utils {
         }
 
         if (contactName == null || contactName.trim().isEmpty()) {
+            Utils.debug(TAG, String.format("Couldn't find contact for phone number '%s'", phoneNumber));
             return phoneNumber;
         }
+
+        Utils.debug(TAG, String.format("Found contact name '%s' for '%s'", contactName, phoneNumber));
 
         return String.format("%s (%s)", contactName, phoneNumber);
     }
