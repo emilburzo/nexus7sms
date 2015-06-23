@@ -6,7 +6,6 @@
 - opțiune cancel notification (basicsmsreceiver)
 - notification new sms?
 - setup donation system
-- deny send empty msg
 - color generator mai corect cu hashcode probabil (https://github.com/amulyakhare/TextDrawable#5-built-in-color-generator)
 - when new sms received, get contact phone number and save that Utils.getContactPhone()
 - share support

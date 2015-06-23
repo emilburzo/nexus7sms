@@ -215,10 +215,9 @@ public class Utils {
 
     public static TextDrawable getContactTextPhoto(Context context, String phone) {
         String contactFirstLetter = getContactName(context, phone).substring(0, 1);
+        int color = Color.parseColor(getColor(phone));
 
-        TextDrawable drawable = TextDrawable.builder().buildRect(contactFirstLetter, Color.parseColor(getColor(phone)));
-
-        return drawable;
+        return TextDrawable.builder().buildRect(contactFirstLetter, color);
     }
 
 }

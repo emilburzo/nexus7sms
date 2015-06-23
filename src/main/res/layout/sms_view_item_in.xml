@@ -12,7 +12,8 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:id="@+id/picture"
-        android:paddingEnd="10dp"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/avatar_content_description"
         />
 
     <TextView
