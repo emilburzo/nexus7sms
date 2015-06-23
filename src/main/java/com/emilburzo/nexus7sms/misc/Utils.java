@@ -96,7 +96,7 @@ public class Utils {
             return phoneNumber;
         }
 
-        return contactName;
+        return String.format("%s (%s)", contactName, phoneNumber);
     }
 
     public static String getContactPhone(Context context, String phoneNumber) {
