@@ -240,6 +240,10 @@ public class SmsViewActivity extends AppCompatActivity {
 //        final String phone = smsDestination.getText().toString();
         final String message = msgBody.getText().toString();
 
+        if (message.trim().isEmpty()) {
+            return;
+        }
+
 //        if (!valid(phone, message)) {
 //            return;
 //        }
