@@ -4,25 +4,29 @@
     <CheckBoxPreference
         android:key="pref_incoming_sms_sound"
         android:title="Incoming SMS sound"
-        android:summary="Incoming SMS sound"
+        android:summaryOn="Play a sound when a new SMS arrives"
+        android:summaryOff="Don't play a sound when a new SMS arrives"
         android:defaultValue="true"/>
 
     <CheckBoxPreference
         android:key="pref_outgoing_sms_sound"
         android:title="Outgoing SMS sound"
-        android:summary="Outgoing SMS sound"
+        android:summaryOn="Play a sound when you send a SMS"
+        android:summaryOff="Don't play a sound when you send a SMS"
         android:defaultValue="true"/>
 
     <CheckBoxPreference
         android:key="pref_show_notifications"
         android:title="Show notification for new SMS"
-        android:summary="Show notification for new SMS"
+        android:summaryOn="Show a notification when a new SMS arrives"
+        android:summaryOff="Don't show a notification when a new SMS arrives"
         android:defaultValue="true"/>
 
     <CheckBoxPreference
         android:key="pref_hide_simple_notification"
         android:title="Automatically dismiss built-in notifications"
-        android:summary="Automatically dismiss built-in notifications"
+        android:summaryOn="Hide the system SMS notification when a new SMS arrives"
+        android:summaryOff="Leave the system SMS notification when a new SMS arrives"
         android:defaultValue="true"/>
 
 </PreferenceScreen>
