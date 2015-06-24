@@ -38,7 +38,8 @@
 
         <activity
             android:name=".activity.ContactsActivity"
-            android:parentActivityName=".activity.SmsListActivity">
+            android:parentActivityName=".activity.SmsListActivity"
+            android:label="@string/contacts_label">
         </activity>
 
         <activity

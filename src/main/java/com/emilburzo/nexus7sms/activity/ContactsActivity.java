@@ -2,6 +2,8 @@ package com.emilburzo.nexus7sms.activity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -47,6 +49,8 @@ public class ContactsActivity extends AppCompatActivity {
     }
 
     private void initUi() {
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF0099CC")));
+
         // list
         listView = (ListView) findViewById(R.id.list);
         adapter = new ContactsAdapter(this, contacts);
