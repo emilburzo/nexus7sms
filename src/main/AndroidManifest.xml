@@ -51,7 +51,7 @@
         <activity
             android:exported="false"
             android:name=".activity.SettingsActivity"
-            android:parentActivityName=".activity.SmsListActivity">
+            >
         </activity>
 
         <service
