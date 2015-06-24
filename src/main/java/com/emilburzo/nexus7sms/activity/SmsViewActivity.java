@@ -135,6 +135,10 @@ public class SmsViewActivity extends AppCompatActivity {
     }
 
     private void loadMessages() {
+        if (phoneNo == null) {
+            return;
+        }
+
         Realm realm = Realm.getInstance(this);
 
         // Build the query looking at all users:

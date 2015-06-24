@@ -258,7 +258,11 @@ public class Utils {
     public static int getColor(String phone) {
         ColorGenerator generator = ColorGenerator.MATERIAL;
 
-        return generator.getColor(phone);
+        if (phone == null) {
+            return generator.getRandomColor();
+        } else {
+            return generator.getColor(phone);
+        }
     }
 
     public static TextDrawable getContactTextPhoto(Context context, String phone) {
