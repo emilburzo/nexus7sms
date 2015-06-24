@@ -36,5 +36,9 @@ public class Constants {
         public static final String CHECKMARK = "✓";
     }
 
+    public static final class Settings {
+        public static final String INCOMING_SMS_SOUND = "pref_incoming_sms_sound";
+    }
+
 
 }
