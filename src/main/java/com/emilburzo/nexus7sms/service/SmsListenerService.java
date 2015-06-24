@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
@@ -45,16 +46,20 @@ public class SmsListenerService extends NotificationListenerService {
             String phoneNumber = extras.getString(ANDROID_TITLE);
             String msgBody = extras.getCharSequence(ANDROID_TEXT).toString();
 
-            onMessageReceived(phoneNumber, msgBody);
+            onMessageReceived(phoneNumber, msgBody, sbn);
         }
     }
 
-    private void onMessageReceived(String phoneNumber, String msgBody) {
+    private void onMessageReceived(String phoneNumber, String msgBody, StatusBarNotification sbn) {
         Utils.debug(TAG, String.format("New message from '%s' with '%s'", phoneNumber, msgBody));
 
         // persist to db
         Utils.persistSmsIn(this, Utils.getContactPhone(this, phoneNumber), msgBody);
 
+        // cancel basicsmsreceiver notification
+        doCancelBasicNotification(sbn);
+
+        // our notification
         doNotification(phoneNumber, msgBody);
 
         // sound notification
@@ -64,14 +69,30 @@ public class SmsListenerService extends NotificationListenerService {
         Utils.notifyMessagesChanged(getApplicationContext());
     }
 
-    private void doNotification(String phoneNumber, String msgBody) {
+    private void doCancelBasicNotification(StatusBarNotification sbn) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String name = Utils.getContactName(this, phoneNumber);
+        boolean notification = sp.getBoolean(Constants.Settings.HIDE_SIMPLE_NOTIFICATIONS, true);
+
+        if (!notification) {
+            return;
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            cancelNotification(sbn.getKey());
+        } else {
+            cancelNotification(sbn.getPackageName(), sbn.getTag(), sbn.getId());
+        }
+    }
+
+    private void doNotification(String phoneNumber, String msgBody) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
         boolean notification = sp.getBoolean(Constants.Settings.SHOW_NOTIFICATIONS, true);
 
         if (notification) {
+            String name = Utils.getContactName(this, phoneNumber);
+
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setContentTitle(name)

@@ -1,10 +1,10 @@
 v2.0
-- opțiune sound effects: message sent/received
-- opțiune cancel notification (basicsmsreceiver)
-- opțiune notification new sms?
+[x] opțiune sound effects: message sent/received
+[x] opțiune cancel notification (basicsmsreceiver)
+[x] opțiune notification new sms?
 
 v2.+
-- https://developer.android.com/training/material/lists-cards.html
-- link support in messages
-- setup donation system
-- in app purchase
+[ ]  https://developer.android.com/training/material/lists-cards.html
+[ ]  link support in messages
+[ ]  setup donation system
+[ ]  in app purchase
