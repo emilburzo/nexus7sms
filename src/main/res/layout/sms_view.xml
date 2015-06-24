@@ -21,7 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:id="@+id/msgInput"
-        android:background="@drawable/round_border"
+        android:background="#ffffff"
+        android:elevation="30dp"
         >
 
         <EditText
@@ -36,7 +37,6 @@
             android:layout_weight="1"
             android:hint="@string/sms_body_hint"
             android:maxLength="160"
-            android:background="#ffffff"
             />
 
         <TextView

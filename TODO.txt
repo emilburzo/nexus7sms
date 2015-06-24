@@ -5,3 +5,4 @@
 - share support
 - in app purchase
 - different icon for unknown numbers (than for 'me')
+- https://developer.android.com/training/material/lists-cards.html
