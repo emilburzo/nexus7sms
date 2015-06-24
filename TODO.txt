@@ -5,3 +5,4 @@
 - share support
 - in app purchase
 - different icon for unknown numbers (than for 'me')
+- theme consistent (actionbar color la toate activities)
