@@ -48,6 +48,12 @@
             android:windowSoftInputMode="adjustResize">
         </activity>
 
+        <activity
+            android:exported="false"
+            android:name=".activity.SettingsActivity"
+            android:parentActivityName=".activity.SmsListActivity">
+        </activity>
+
         <service
             android:name=".service.SmsListenerService"
             android:label="@string/app_name"

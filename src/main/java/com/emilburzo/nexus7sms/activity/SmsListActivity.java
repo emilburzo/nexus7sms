@@ -4,10 +4,13 @@ import android.content.*;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -40,6 +43,8 @@ public class SmsListActivity extends AppCompatActivity {
 
         setContentView(R.layout.sms_list);
 
+        initDefaultPreferences();
+
         startBackendService();
 
         initUi();
@@ -49,6 +54,10 @@ public class SmsListActivity extends AppCompatActivity {
         checkForNotificationAccess();
 
         loadMessages();
+    }
+
+    private void initDefaultPreferences() {
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
     private void startBackendService() {
@@ -118,6 +127,29 @@ public class SmsListActivity extends AppCompatActivity {
             AlertDialog alert = builder.create();
             alert.show();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.sms_list_activity_actions, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                openSettings();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openSettings() {
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(intent);
     }
 
     private void loadMessages() {
