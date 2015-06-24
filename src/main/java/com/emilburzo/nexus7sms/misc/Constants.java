@@ -4,7 +4,8 @@ public class Constants {
 
     public class Intents {
         public static final String PHONE_NUMBER = "com.emilburzo.nexus7sms.PHONE_NUMBER";
-        public static final String SEND_SMS = "SEND_SMS";
+        public static final String MESSAGE = "com.emilburzo.nexus7sms.MESSAGE";
+        public static final String SEND_SMS = "com.emilburzo.nexus7sms.SEND_SMS";
     }
 
     public static final class IntentActions {

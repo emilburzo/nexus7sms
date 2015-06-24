@@ -59,6 +59,8 @@ public class SmsViewActivity extends AppCompatActivity {
         loadMessages();
 
         initHandlers();
+
+        extractMessage();
     }
 
     private void setTitleAndColor() {
@@ -75,6 +77,15 @@ public class SmsViewActivity extends AppCompatActivity {
 
         adapter = new SmsViewAdapter(this, msgs);
         listView.setAdapter(adapter);
+    }
+
+    private void extractMessage() {
+        Intent intent = getIntent();
+        String msg = intent.getStringExtra(Constants.Intents.MESSAGE);
+
+        msgBody.setText(msg);
+
+        Utils.debug(TAG, String.format("Found message: '%s'", msg));
     }
 
     private void extractPhoneNumber() {

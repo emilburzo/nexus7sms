@@ -34,6 +34,8 @@ public class ContactsActivity extends AppCompatActivity {
     private ListView listView;
     private EditText search;
 
+    private String sharedText;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +48,13 @@ public class ContactsActivity extends AppCompatActivity {
         initHandlers();
 
         loadContacts();
+
+        loadMessageFromIntent();
     }
 
     private void initUi() {
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF0099CC")));
+        getSupportActionBar().setTitle(getString(R.string.contacts_label));
 
         // list
         listView = (ListView) findViewById(R.id.list);
@@ -69,11 +74,29 @@ public class ContactsActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ContactsActivity.this, SmsViewActivity.class);
                 intent.putExtra(Constants.Intents.PHONE_NUMBER, contact.phone);
+
+                if (sharedText != null) {
+                    intent.putExtra(Constants.Intents.MESSAGE, sharedText);
+                }
+
                 startActivity(intent);
             }
         });
 
         search.addTextChangedListener(new ContactsSearch());
+    }
+
+    private void loadMessageFromIntent() {
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+            }
+        }
     }
 
     private void loadContacts() {

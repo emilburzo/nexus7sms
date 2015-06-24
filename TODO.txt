@@ -2,7 +2,6 @@
 - opțiune cancel notification (basicsmsreceiver)
 - notification new sms?
 - setup donation system
-- share support
 - in app purchase
-- different icon for unknown numbers (than for 'me')
 - https://developer.android.com/training/material/lists-cards.html
+- link support in messages
