@@ -2,10 +2,12 @@ package com.emilburzo.nexus7sms.activity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -22,56 +24,79 @@ import com.emilburzo.nexus7sms.pojo.Contact;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LookupContact extends ActionBarActivity {
+public class ContactsActivity extends AppCompatActivity {
 
-    private static final String TAG = "Contacts";
+    private final String TAG = this.getClass().getSimpleName();
 
-    private List<Contact> contacts = new ArrayList<Contact>();
-    private ContactsAdapter contactsAdapter;
+    private List<Contact> contacts = new ArrayList<>();
+    private ContactsAdapter adapter;
 
     private ListView listView;
-    private EditText contactsSearch;
+    private EditText search;
+
+    private String sharedText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lookup_contact);
+        setContentView(R.layout.contacts);
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
-        setupActionBar();
+        initUi();
 
-        // Get ListView object from xml
-        listView = (ListView) findViewById(R.id.contactsList);
+        initHandlers();
 
-        contactsSearch = (EditText) findViewById(R.id.contactsSearch);
-        contactsSearch.addTextChangedListener(new ContactsSearch());
-
-        // load contacts from the device phonebook/people/contacts
         loadContacts();
 
-        // Assign adapter to ListView
-        contactsAdapter = new ContactsAdapter(this, contacts);
-        listView.setAdapter(contactsAdapter);
+        loadMessageFromIntent();
+    }
 
-        // ListView Item Click Listener
+    private void initUi() {
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF0099CC")));
+        getSupportActionBar().setTitle(getString(R.string.contacts_label));
+
+        // list
+        listView = (ListView) findViewById(R.id.list);
+        adapter = new ContactsAdapter(this, contacts);
+        listView.setAdapter(adapter);
+
+        // search
+        search = (EditText) findViewById(R.id.search);
+    }
+
+    private void initHandlers() {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Contact contact = (Contact) listView.getItemAtPosition(position);
 
-                Intent intent = new Intent(LookupContact.this, SmsActivity.class);
+                Intent intent = new Intent(ContactsActivity.this, SmsViewActivity.class);
                 intent.putExtra(Constants.Intents.PHONE_NUMBER, contact.phone);
-                setResult(RESULT_OK, intent);
-                finish();
+
+                if (sharedText != null) {
+                    intent.putExtra(Constants.Intents.MESSAGE, sharedText);
+                }
+
+                startActivity(intent);
             }
         });
+
+        search.addTextChangedListener(new ContactsSearch());
     }
 
-    private void setupActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+    private void loadMessageFromIntent() {
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+            }
+        }
     }
 
     private void loadContacts() {
@@ -89,7 +114,7 @@ public class LookupContact extends ActionBarActivity {
         selection += "replace(replace(replace(replace(" + ContactsContract.CommonDataKinds.Phone.NUMBER + ", '+', ''), '-', ''), '(', ''), ')', '')" + " LIKE ?";
 
         // filtering args
-        String selectionArg = "%" + contactsSearch.getText() + "%";
+        String selectionArg = "%" + search.getText() + "%";
         String[] selectionArgs = new String[]{selectionArg, selectionArg, selectionArg};
 
         // order by
@@ -110,11 +135,19 @@ public class LookupContact extends ActionBarActivity {
             contacts.add(contact);
         }
 
+        // are we searching for a number?
+        // if yes, give the user an option to send SMS directly to that number
+        // (when there is no contact added)
+        String search = this.search.getText().toString();
+
+        if (PhoneNumberUtils.isWellFormedSmsAddress(search)) {
+            Contact contact = new Contact(String.format("Send message to %s", search), search, null);
+            contacts.add(0, contact);
+        }
+
         phones.close();
 
-        if (contactsAdapter != null) {
-            contactsAdapter.notifyDataSetChanged();
-        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -125,7 +158,7 @@ public class LookupContact extends ActionBarActivity {
     }
 
     public void doClearSearch(View view) {
-        contactsSearch.setText("");
+        search.setText("");
 
         loadContacts();
     }

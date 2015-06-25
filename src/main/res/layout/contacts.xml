@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+    >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:padding="7dp"
+        android:background="@color/white"
+        >
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:id="@+id/search"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:hint="@string/contact_search_hint"
+            android:background="#ffffff"
+            />
+
+        <ImageButton
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:id="@+id/btnClear"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:background="?attr/selectableItemBackground"
+            android:layout_gravity="center"
+            android:onClick="doClearSearch"
+            android:contentDescription="@string/btn_clear_content_description"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list"
+        android:background="@color/white"
+        android:divider="@null"
+        />
+
+</LinearLayout>
+

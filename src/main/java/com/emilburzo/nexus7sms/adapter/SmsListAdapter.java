@@ -10,31 +10,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.misc.Utils;
-import com.emilburzo.nexus7sms.pojo.Contact;
+import com.emilburzo.nexus7sms.pojo.Sms;
 
 import java.util.List;
 
-public class ContactsAdapter extends BaseAdapter {
+public class SmsListAdapter extends BaseAdapter {
 
+    private final List<Sms> list;
     private final Context context;
-    private final List<Contact> contactList;
+
     private static LayoutInflater inflater = null;
 
-    public ContactsAdapter(Context context, List<Contact> contactList) {
+    public SmsListAdapter(Context context, List<Sms> list) {
+        this.list = list;
         this.context = context;
-        this.contactList = contactList;
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
     public int getCount() {
-        return contactList.size();
+        return list.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return contactList.get(position);
+        return list.get(position);
     }
 
     @Override
@@ -47,35 +48,29 @@ public class ContactsAdapter extends BaseAdapter {
         View vi = convertView;
 
         if (vi == null) {
-            vi = inflater.inflate(R.layout.contacts_item, null);
+            vi = inflater.inflate(R.layout.sms_list_item, null);
         }
 
-        Contact contact = contactList.get(position);
+        Sms sms = list.get(position);
 
-        // picture
         ImageView picture = (ImageView) vi.findViewById(R.id.picture);
 
-        Bitmap photo = Utils.getContactPhoto(context, contact.phone);
+        Bitmap photo = Utils.getContactPhoto(context, sms.phone);
 
         if (photo == null) {
-            picture.setImageDrawable(Utils.getContactTextPhoto(context, contact.phone));
+            picture.setImageDrawable(Utils.getContactTextPhoto(context, sms.phone));
         } else {
             picture.setImageBitmap(photo);
         }
 
-        // name
+        TextView name = (TextView) vi.findViewById(R.id.phone);
+        name.setText(Utils.getContactName(context, sms.phone));
 
-        TextView name = (TextView) vi.findViewById(R.id.contactName);
-        name.setText(contact.name);
+        TextView phone = (TextView) vi.findViewById(R.id.body);
+        phone.setText(sms.body);
 
-        // phone
-
-        TextView phone = (TextView) vi.findViewById(R.id.contactPhone);
-        if (contact.phoneType == null) {
-            phone.setText(String.format("%s", contact.phone));
-        } else {
-            phone.setText(String.format("%s (%s)", contact.phone, contact.phoneType));
-        }
+        TextView date = (TextView) vi.findViewById(R.id.date);
+        date.setText(Utils.formatDate(sms.timestamp));
 
         return vi;
     }
