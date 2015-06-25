@@ -38,6 +38,7 @@ public class Constants {
 
     public static final class Settings {
         public static final String INCOMING_SMS_SOUND = "pref_incoming_sms_sound";
+        public static final String OUTGOING_SMS_SOUND = "pref_outgoing_sms_sound";
         public static final String SHOW_NOTIFICATIONS = "pref_show_notifications";
         public static final String HIDE_SIMPLE_NOTIFICATIONS = "pref_hide_simple_notification";
     }

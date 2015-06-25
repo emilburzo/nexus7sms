@@ -2,8 +2,8 @@ v2.0
 [x] opțiune sound effects: message sent/received
 [x] opțiune cancel notification (basicsmsreceiver)
 [x] opțiune notification new sms?
-[ ] sunet când trimiți mesaj
-[ ] scos toast de pe mesaj
+[x] sunet când trimiți mesaj
+[x] scos toast de pe mesaj
 [ ] store listing
 [ ] screenshots
 

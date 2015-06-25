@@ -1,11 +1,10 @@
 package com.emilburzo.nexus7sms.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.*;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -198,11 +197,25 @@ public class SmsViewActivity extends AppCompatActivity {
         // GSM send
         sendSms(phoneNo, message, uuid);
 
+        // play sound
+        playSound();
+
         // clear message
         msgBody.setText("");
 
         // refresh list
         loadMessages();
+    }
+
+    private void playSound() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+
+        boolean play = sp.getBoolean(Constants.Settings.OUTGOING_SMS_SOUND, true);
+
+        if (play) {
+            MediaPlayer mp = MediaPlayer.create(this, R.raw.chime);
+            mp.start();
+        }
     }
 
     private void sendSms(String phone, String message, String uuid) {
