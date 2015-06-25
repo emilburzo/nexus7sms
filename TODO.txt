@@ -4,8 +4,8 @@ v2.0
 [x] opțiune notification new sms?
 [x] sunet când trimiți mesaj
 [x] scos toast de pe mesaj
-[ ] store listing
-[ ] screenshots
+[x] store listing
+[x] screenshots
 
 v2.+
 [ ] https://developer.android.com/training/material/lists-cards.html

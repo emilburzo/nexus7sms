@@ -1,0 +1,23 @@
+Since you are here, you probably noticed that on the <b>Nexus 7 3G/LTE</b> edition, you can't send/receive SMS messages, hindering the ability for many to subscribe/change options on various prepay providers.
+<br />
+
+You can now finally send and receive SMS messages from your Nexus 7 tablet! (as long as it has a SIM, of course)
+<br />
+
+No root access required, just stock Android.
+<br />
+
+<b>Permissions required:</b>
+&bull; <b>notification access:</b> to read incoming SMS message notifications
+&bull; <b>send SMS:</b> obvious
+&bull; <b>read contacts:</b> to choose a phone number from the contact list/search
+&bull; <b>read phone state:</b> needed because of android bug #81758
+&bull; <b>read profile:</b> to access your profile picture
+<br /
+
+<b>Known to work on:</b>
+&bull; Nexus 7 LTE (2013)
+&bull; Nexus 7 3G (2012) (thanks Emad Zolqadr)
+<br />
+
+Let me know if it helps you with other devices!
