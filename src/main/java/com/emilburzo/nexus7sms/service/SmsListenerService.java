@@ -30,6 +30,34 @@ public class SmsListenerService extends NotificationListenerService {
     private String TAG = this.getClass().getSimpleName();
 
     @Override
+    public void onCreate() {
+        super.onCreate();
+        Runnable test = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                onMessageReceived("+123123123", "body", null);
+
+                try {
+                    Thread.sleep(15000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+                onMessageReceived("+32323232", "body", null);
+            }
+        };
+
+        new Thread(test).run();
+    }
+
+    @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         /*
         06-17 08:23:51.227  14595-14608/com.emilburzo.nexus7sms I/Package﹕ com.android.basicsmsreceiver
@@ -72,7 +100,7 @@ public class SmsListenerService extends NotificationListenerService {
 
         boolean notification = sp.getBoolean(Constants.Settings.HIDE_SIMPLE_NOTIFICATIONS, true);
 
-        if (!notification) {
+        if (!notification || sbn == null) {
             return;
         }
 
