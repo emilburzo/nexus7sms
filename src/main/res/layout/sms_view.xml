@@ -43,7 +43,7 @@
             android:id="@+id/msgLength"
             android:layout_width="80dp"
             android:layout_height="48dp"
-            android:text="0/160"
+            android:text="@string/msg_length_default_value"
             android:gravity="center"
             android:layout_gravity="center"
             android:layout_marginEnd="15dp"
@@ -60,7 +60,7 @@
             android:background="@drawable/sms_send_selector"
             android:onClick="doSendSms"
             android:layout_margin="5dp"
-            />
+            android:contentDescription="@string/btn_send_content_description"/>
 
     </LinearLayout>
 

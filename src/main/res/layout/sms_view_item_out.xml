@@ -42,7 +42,7 @@
             android:layout_gravity="end"
             android:textColor="@color/red"
             android:visibility="gone"
-            android:text="could not send message"
+            android:text="@string/sms_out_error"
             />
 
     </LinearLayout>

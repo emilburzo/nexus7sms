@@ -30,7 +30,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:layout_gravity="center"
                 android:onClick="doClearSearch"
-                />
+                android:contentDescription="@string/btn_clear_content_description"/>
 
     </LinearLayout>
 

@@ -12,7 +12,7 @@
             android:layout_height="fill_parent"
             android:id="@+id/contactName"
             android:layout_weight="1"
-            android:gravity="left"
+            android:gravity="start"
             android:layout_gravity="center"
             style="@android:style/TextAppearance.Medium"
             />
@@ -22,7 +22,7 @@
             android:layout_height="fill_parent"
             android:id="@+id/contactPhone"
             android:layout_weight="1"
-            android:gravity="left"
+            android:gravity="start"
             android:layout_gravity="center"
             />
 

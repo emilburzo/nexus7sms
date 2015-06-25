@@ -23,4 +23,8 @@
     <string name="avatar_content_description">avatar</string>
     <string name="contacts_label">Contacts</string>
     <string name="action_settings">Settings</string>
+    <string name="btn_clear_content_description">clear search input</string>
+    <string name="btn_send_content_description">send SMS</string>
+    <string name="msg_length_default_value">0/160</string>
+    <string name="sms_out_error">could not send message</string>
 </resources>
