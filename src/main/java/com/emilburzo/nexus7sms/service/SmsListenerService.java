@@ -93,6 +93,7 @@ public class SmsListenerService extends NotificationListenerService {
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_notification)
+                    .setLargeIcon(Utils.getContactPhoto(this, phoneNumber))
                     .setContentTitle(name)
                     .setContentText(msgBody); // todo trim length
 
