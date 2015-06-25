@@ -13,6 +13,7 @@ public class SmsModel extends RealmObject {
     private String type; // 'in' or 'out'
     private boolean sent; // sent notification for 'out'
     private boolean delivered; // delivery notification for 'out'
+    private boolean archived;
 
     public String getUuid() {
         return uuid;
@@ -69,4 +70,13 @@ public class SmsModel extends RealmObject {
     public void setDelivered(boolean delivered) {
         this.delivered = delivered;
     }
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
 }
