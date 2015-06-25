@@ -37,6 +37,7 @@
             android:layout_weight="1"
             android:hint="@string/sms_body_hint"
             android:maxLength="160"
+            android:background="#ffffff"
             />
 
         <TextView
