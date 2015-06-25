@@ -30,34 +30,6 @@ public class SmsListenerService extends NotificationListenerService {
     private String TAG = this.getClass().getSimpleName();
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-        Runnable test = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                onMessageReceived("+123123123", "body", null);
-
-                try {
-                    Thread.sleep(15000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
-                onMessageReceived("+32323232", "body", null);
-            }
-        };
-
-        new Thread(test).run();
-    }
-
-    @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         /*
         06-17 08:23:51.227  14595-14608/com.emilburzo.nexus7sms I/Package﹕ com.android.basicsmsreceiver
@@ -130,8 +102,8 @@ public class SmsListenerService extends NotificationListenerService {
             Intent intent = new Intent(this, SmsViewActivity.class);
             intent.putExtra(Constants.Intents.PHONE_NUMBER, Utils.getContactPhone(this, phoneNumber));
 
-            PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-            mBuilder.setContentIntent(resultPendingIntent);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            mBuilder.setContentIntent(pendingIntent);
 
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
