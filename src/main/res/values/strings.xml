@@ -27,4 +27,5 @@
     <string name="btn_send_content_description">send SMS</string>
     <string name="msg_length_default_value">0/160</string>
     <string name="sms_out_error">could not send message</string>
+    <string name="msg_copied_to_clipboard">Message has been copied to clipboard</string>
 </resources>

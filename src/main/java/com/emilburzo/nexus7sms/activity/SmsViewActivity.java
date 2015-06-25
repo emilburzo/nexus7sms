@@ -10,10 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.adapter.SmsViewAdapter;
 import com.emilburzo.nexus7sms.misc.Constants;
@@ -100,10 +97,13 @@ public class SmsViewActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Sms sms = (Sms) listView.getItemAtPosition(position);
+                Sms sms = (Sms) listView.getItemAtPosition(position);
 
-                // todo
-//                Toast.makeText(getApplicationContext(), sms.body, Toast.LENGTH_LONG).show();
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("SMS", sms.body);
+                clipboard.setPrimaryClip(clip);
+
+                Toast.makeText(getApplicationContext(), getString(R.string.msg_copied_to_clipboard), Toast.LENGTH_LONG).show();
             }
         });
 
