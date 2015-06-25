@@ -2,9 +2,15 @@ v2.0
 [x] opțiune sound effects: message sent/received
 [x] opțiune cancel notification (basicsmsreceiver)
 [x] opțiune notification new sms?
+[ ] sunet când trimiți mesaj
+[ ] scos toast de pe mesaj
+[ ] store listing
+[ ] screenshots
 
 v2.+
-[ ]  https://developer.android.com/training/material/lists-cards.html
-[ ]  link support in messages
-[ ]  setup donation system
-[ ]  in app purchase
+[ ] https://developer.android.com/training/material/lists-cards.html
+[ ] link support in messages
+[ ] setup donation system
+[ ] in app purchase
+[ ] archive
+[ ] delete

@@ -11,7 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.adapter.SmsViewAdapter;
 import com.emilburzo.nexus7sms.misc.Constants;
@@ -26,9 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SmsViewActivity extends AppCompatActivity {
-
-    private static final String SENT = "SMS_SENT";
-    private static final String DELIVERED = "SMS_DELIVERED";
 
     private static final int SMS_MAX_LENGTH = 160;
 
@@ -67,7 +67,7 @@ public class SmsViewActivity extends AppCompatActivity {
     private void setTitleAndColor() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Utils.getColor(phoneNo)));
-            getSupportActionBar().setTitle(Utils.getContactName(this, phoneNo));
+            getSupportActionBar().setTitle(Utils.getContactName(this, phoneNo, true));
         }
     }
 
@@ -101,10 +101,10 @@ public class SmsViewActivity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Sms sms = (Sms) listView.getItemAtPosition(position);
+//                Sms sms = (Sms) listView.getItemAtPosition(position);
 
                 // todo
-                Toast.makeText(getApplicationContext(), sms.body, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), sms.body, Toast.LENGTH_LONG).show();
             }
         });
 

@@ -129,7 +129,7 @@ public class Utils {
         realm.close();
     }
 
-    public static String getContactName(Context context, String phoneNumber) {
+    public static String getContactName(Context context, String phoneNumber, boolean withPhone) {
         ContentResolver cr = context.getContentResolver();
 
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
@@ -157,7 +157,11 @@ public class Utils {
 
         Utils.debug(TAG, String.format("Found contact name '%s' for '%s'", contactName, phoneNumber));
 
-        return String.format("%s (%s)", contactName, phoneNumber);
+        if (withPhone) {
+            return String.format("%s (%s)", contactName, phoneNumber);
+        } else {
+            return contactName;
+        }
     }
 
     public static String getContactPhone(Context context, String phoneNumber) {
@@ -266,7 +270,15 @@ public class Utils {
     }
 
     public static TextDrawable getContactTextPhoto(Context context, String phone) {
-        String contactFirstLetter = getContactName(context, phone).substring(0, 1);
+        String name = getContactName(context, phone, false);
+
+        String contactFirstLetter = null;
+
+        if (name == null) {
+            contactFirstLetter = "X";
+        } else {
+            contactFirstLetter = name.substring(0, 1);
+        }
 
         return TextDrawable.builder().buildRect(contactFirstLetter, getColor(phone));
     }

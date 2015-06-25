@@ -64,7 +64,7 @@ public class SmsListAdapter extends BaseAdapter {
         }
 
         TextView name = (TextView) vi.findViewById(R.id.phone);
-        name.setText(Utils.getContactName(context, sms.phone));
+        name.setText(Utils.getContactName(context, sms.phone, true));
 
         TextView phone = (TextView) vi.findViewById(R.id.body);
         phone.setText(sms.body);

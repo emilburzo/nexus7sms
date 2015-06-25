@@ -14,9 +14,7 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import com.emilburzo.nexus7sms.R;
-import com.emilburzo.nexus7sms.activity.SmsListActivity;
 import com.emilburzo.nexus7sms.activity.SmsViewActivity;
 import com.emilburzo.nexus7sms.misc.Constants;
 import com.emilburzo.nexus7sms.misc.Utils;
@@ -91,7 +89,7 @@ public class SmsListenerService extends NotificationListenerService {
         boolean notification = sp.getBoolean(Constants.Settings.SHOW_NOTIFICATIONS, true);
 
         if (notification) {
-            String name = Utils.getContactName(this, phoneNumber);
+            String name = Utils.getContactName(this, phoneNumber, false);
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_notification)
@@ -99,24 +97,12 @@ public class SmsListenerService extends NotificationListenerService {
                     .setContentText(msgBody); // todo trim length
 
             // Creates an explicit intent for an Activity in your app
-            Intent resultIntent = new Intent(this, SmsViewActivity.class);
-            resultIntent.putExtra(Constants.IntentExtras.PHONE, phoneNumber);
+            Intent intent = new Intent(this, SmsViewActivity.class);
+            intent.putExtra(Constants.Intents.PHONE_NUMBER, Utils.getContactPhone(this, phoneNumber));
 
-            // The stack builder object will contain an artificial back stack for the
-            // started Activity.
-            // This ensures that navigating backward from the Activity leads out of
-            // your application to the Home screen.
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-            // Adds the back stack for the Intent (but not the Intent itself)
-            stackBuilder.addParentStack(SmsListActivity.class);
-            // Adds the Intent that starts the Activity to the top of the stack
-            stackBuilder.addNextIntent(resultIntent);
-            PendingIntent resultPendingIntent =
-                    stackBuilder.getPendingIntent(
-                            0,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    );
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
             mBuilder.setContentIntent(resultPendingIntent);
+
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
             // mId allows you to update the notification later on.
