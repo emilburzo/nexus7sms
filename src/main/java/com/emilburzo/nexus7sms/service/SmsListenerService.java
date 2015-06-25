@@ -89,7 +89,7 @@ public class SmsListenerService extends NotificationListenerService {
         boolean notification = sp.getBoolean(Constants.Settings.SHOW_NOTIFICATIONS, true);
 
         if (notification) {
-            String name = Utils.getContactName(this, phoneNumber, false);
+            String name = Utils.getContactName(this, phoneNumber);
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_notification)
