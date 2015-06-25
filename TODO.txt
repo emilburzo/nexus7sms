@@ -14,3 +14,4 @@ v2.+
 [ ] in app purchase
 [ ] archive
 [ ] delete
+[ ] text avatar dacă nu are profile pic
