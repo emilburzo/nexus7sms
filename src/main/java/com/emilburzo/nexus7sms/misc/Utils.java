@@ -44,6 +44,10 @@ public class Utils {
         return str != null && str.length() > 0;
     }
 
+    public static boolean isEmpty(String str) {
+        return str == null || str.trim().length() > 0;
+    }
+
     public static String persistSmsIn(Context context, String phoneNo, String msgBody) {
         return persistSms(context, Constants.SmsTypes.IN, phoneNo, msgBody);
     }
@@ -130,6 +134,10 @@ public class Utils {
     }
 
     public static String getContactName(Context context, String phoneNumber) {
+        if (isEmpty(phoneNumber)) {
+            return "N/A";
+        }
+
         ContentResolver cr = context.getContentResolver();
 
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
@@ -161,6 +169,10 @@ public class Utils {
     }
 
     public static String getContactPhone(Context context, String phoneNumber) {
+        if (isEmpty(phoneNumber)) {
+            return "N/A";
+        }
+
         ContentResolver cr = context.getContentResolver();
 
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
@@ -189,9 +201,13 @@ public class Utils {
     }
 
     public static String getContactId(Context context, String phoneNumber) {
-        ContentResolver contentResolver = context.getContentResolver();
-
         String contactId = null;
+
+        if (isEmpty(phoneNumber)) {
+            return contactId;
+        }
+
+        ContentResolver contentResolver = context.getContentResolver();
 
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
 
@@ -212,6 +228,10 @@ public class Utils {
     }
 
     public static Bitmap getContactPhoto(Context context, String phone) {
+        if (isEmpty(phone)) {
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.contact_picture);
+        }
+
         String contactId = getContactId(context, phone);
 
         // no contact found for given phone number, return boring profile pic
@@ -219,10 +239,9 @@ public class Utils {
             return BitmapFactory.decodeResource(context.getResources(), R.drawable.contact_picture);
         }
 
-        Bitmap photo = null;
-
         ContentResolver contentResolver = context.getContentResolver();
 
+        Bitmap photo = null;
         InputStream inputStream;
 
         try {
@@ -271,7 +290,7 @@ public class Utils {
         String contactFirstLetter = null;
 
         if (name == null) {
-            contactFirstLetter = "X";
+            contactFirstLetter = "?";
         } else {
             contactFirstLetter = name.substring(0, 1);
         }

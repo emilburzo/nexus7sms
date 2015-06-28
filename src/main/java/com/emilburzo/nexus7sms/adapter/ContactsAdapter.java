@@ -54,7 +54,6 @@ public class ContactsAdapter extends BaseAdapter {
 
         // picture
         ImageView picture = (ImageView) vi.findViewById(R.id.picture);
-
         Bitmap photo = Utils.getContactPhoto(context, contact.phone);
 
         if (photo == null) {
@@ -64,12 +63,10 @@ public class ContactsAdapter extends BaseAdapter {
         }
 
         // name
-
         TextView name = (TextView) vi.findViewById(R.id.contactName);
         name.setText(contact.name);
 
         // phone
-
         TextView phone = (TextView) vi.findViewById(R.id.contactPhone);
         if (contact.phoneType == null) {
             phone.setText(String.format("%s", contact.phone));
