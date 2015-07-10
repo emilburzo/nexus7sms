@@ -16,6 +16,9 @@ import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.activity.SmsViewActivity;
+import com.emilburzo.nexus7sms.manager.ContactsManager;
+import com.emilburzo.nexus7sms.manager.NotificationsManager;
+import com.emilburzo.nexus7sms.manager.SMSManager;
 import com.emilburzo.nexus7sms.misc.Constants;
 import com.emilburzo.nexus7sms.misc.Utils;
 
@@ -52,7 +55,7 @@ public class SmsListenerService extends NotificationListenerService {
         Utils.debug(TAG, String.format("New message from '%s' with '%s'", phoneNumber, msgBody));
 
         // persist to db
-        Utils.persistSmsIn(this, Utils.getContactPhone(this, phoneNumber), msgBody);
+        SMSManager.persistSmsIn(this, ContactsManager.getContactPhone(this, phoneNumber), msgBody);
 
         // cancel basicsmsreceiver notification
         doCancelBasicNotification(sbn);
@@ -64,7 +67,7 @@ public class SmsListenerService extends NotificationListenerService {
         doSoundNotification();
 
         // refresh UI
-        Utils.notifyMessagesChanged(getApplicationContext());
+        NotificationsManager.notifyMessagesChanged(getApplicationContext());
     }
 
     private void doCancelBasicNotification(StatusBarNotification sbn) {
@@ -89,18 +92,18 @@ public class SmsListenerService extends NotificationListenerService {
         boolean notification = sp.getBoolean(Constants.Settings.SHOW_NOTIFICATIONS, true);
 
         if (notification) {
-            String name = Utils.getContactName(this, phoneNumber);
+            String name = ContactsManager.getContactName(this, phoneNumber);
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(R.drawable.ic_notification)
-                    .setLargeIcon(Utils.getContactPhoto(this, phoneNumber))
+                    .setLargeIcon(ContactsManager.getContactPhoto(this, phoneNumber))
                     .setAutoCancel(true)
                     .setContentTitle(name)
                     .setContentText(msgBody); // todo trim length
 
             // Creates an explicit intent for an Activity in your app
             Intent intent = new Intent(this, SmsViewActivity.class);
-            intent.putExtra(Constants.Intents.PHONE_NUMBER, Utils.getContactPhone(this, phoneNumber));
+            intent.putExtra(Constants.Intents.PHONE_NUMBER, ContactsManager.getContactPhone(this, phoneNumber));
 
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             mBuilder.setContentIntent(pendingIntent);

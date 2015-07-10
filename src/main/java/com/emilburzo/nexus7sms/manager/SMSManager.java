@@ -99,4 +99,12 @@ public class SMSManager {
 
         return uuid;
     }
+
+    public static void onSmsSendFail(Context context, String uuid) {
+        Utils.debug(TAG, "SMS send fail");
+
+        SMSManager.markSmsNotSent(context, uuid);
+
+        NotificationsManager.notifyMessagesChanged(context);
+    }
 }
