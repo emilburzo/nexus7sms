@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.*;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.adapter.SmsViewAdapter;
+import com.emilburzo.nexus7sms.manager.ContactsManager;
+import com.emilburzo.nexus7sms.manager.SMSManager;
 import com.emilburzo.nexus7sms.misc.Constants;
 import com.emilburzo.nexus7sms.misc.Utils;
 import com.emilburzo.nexus7sms.model.SmsModel;
@@ -63,7 +65,7 @@ public class SmsViewActivity extends AppCompatActivity {
     private void setTitleAndColor() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Utils.getColor(phoneNo)));
-            getSupportActionBar().setTitle(Utils.getContactName(this, phoneNo));
+            getSupportActionBar().setTitle(ContactsManager.getContactName(this, phoneNo));
         }
     }
 
@@ -192,7 +194,7 @@ public class SmsViewActivity extends AppCompatActivity {
         }
 
         // realm db persist
-        String uuid = Utils.persistSmsOut(this, phoneNo, message);
+        String uuid = SMSManager.persistSmsOut(this, phoneNo, message);
 
         // GSM send
         sendSms(phoneNo, message, uuid);
