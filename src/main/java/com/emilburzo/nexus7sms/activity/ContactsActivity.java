@@ -123,16 +123,20 @@ public class ContactsActivity extends AppCompatActivity {
         // query
         Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, selection, selectionArgs, orderBy);
 
-        while (phones.moveToNext()) {
-            String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            int phoneType = phones.getInt(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-            String lookupKey = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY)); // todo decide if we need this
+        if (phones != null) {
+            while (phones.moveToNext()) {
+                String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                int phoneType = phones.getInt(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+                String lookupKey = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY)); // todo decide if we need this
 
-            Utils.debug(TAG, String.format("Found name: '%s', phone number: '%s', type: '%s', key: '%s'", name, phoneNumber, phoneType, lookupKey));
+                Utils.debug(TAG, String.format("Found name: '%s', phone number: '%s', type: '%s', key: '%s'", name, phoneNumber, phoneType, lookupKey));
 
-            Contact contact = new Contact(name, phoneNumber, phoneType);
-            contacts.add(contact);
+                Contact contact = new Contact(name, phoneNumber, phoneType);
+                contacts.add(contact);
+            }
+
+            phones.close();
         }
 
         // are we searching for a number?
@@ -144,8 +148,6 @@ public class ContactsActivity extends AppCompatActivity {
             Contact contact = new Contact(String.format("Send message to %s", search), search, null);
             contacts.add(0, contact);
         }
-
-        phones.close();
 
         adapter.notifyDataSetChanged();
     }

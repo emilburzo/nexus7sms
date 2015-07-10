@@ -216,7 +216,6 @@ public class Utils {
         Cursor cursor = contentResolver.query(uri, projection, null, null, null);
 
         if (cursor != null) {
-
             while (cursor.moveToNext()) {
                 contactId = cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.PhoneLookup._ID));
             }
