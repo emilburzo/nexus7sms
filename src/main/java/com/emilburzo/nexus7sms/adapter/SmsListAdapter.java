@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.emilburzo.nexus7sms.R;
+import com.emilburzo.nexus7sms.manager.ContactsManager;
 import com.emilburzo.nexus7sms.misc.Utils;
 import com.emilburzo.nexus7sms.pojo.Sms;
 
@@ -55,16 +56,16 @@ public class SmsListAdapter extends BaseAdapter {
 
         ImageView picture = (ImageView) vi.findViewById(R.id.picture);
 
-        Bitmap photo = Utils.getContactPhoto(context, sms.phone);
+        Bitmap photo = ContactsManager.getContactPhoto(context, sms.phone);
 
         if (photo == null) {
-            picture.setImageDrawable(Utils.getContactTextPhoto(context, sms.phone));
+            picture.setImageDrawable(ContactsManager.getContactTextPhoto(context, sms.phone));
         } else {
             picture.setImageBitmap(photo);
         }
 
         TextView name = (TextView) vi.findViewById(R.id.phone);
-        name.setText(Utils.getContactName(context, sms.phone));
+        name.setText(ContactsManager.getContactName(context, sms.phone));
 
         TextView phone = (TextView) vi.findViewById(R.id.body);
         phone.setText(sms.body);

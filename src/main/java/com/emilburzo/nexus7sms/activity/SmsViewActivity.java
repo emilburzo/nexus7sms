@@ -6,13 +6,18 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.adapter.SmsViewAdapter;
+import com.emilburzo.nexus7sms.manager.ContactsManager;
+import com.emilburzo.nexus7sms.manager.SMSManager;
 import com.emilburzo.nexus7sms.misc.Constants;
 import com.emilburzo.nexus7sms.misc.Utils;
 import com.emilburzo.nexus7sms.model.SmsModel;
@@ -60,10 +65,77 @@ public class SmsViewActivity extends AppCompatActivity {
         extractMessage();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.sms_view_activity_actions, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_delete:
+                onDelete();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void onDelete() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.app_name);
+        builder.setMessage(getString(R.string.thread_delete_confirm));
+
+        builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+
+                doDeleteThread();
+
+                Intent intent = new Intent(getApplicationContext(), SmsListActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton(getString(R.string.no), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    private void doDeleteThread() {
+        // Obtain a Realm instance
+        Realm realm = Realm.getInstance(this);
+
+        // All changes to data must happen in a transaction
+        realm.beginTransaction();
+
+        // Build the query looking at all users:
+        RealmQuery<SmsModel> query = realm.where(SmsModel.class);
+
+        // Add query conditions:
+        query.equalTo("phone", phoneNo);
+
+        // Execute the query:
+        RealmResults<SmsModel> results = query.findAllSorted("timestamp", true);
+
+        // Delete all matches
+        results.clear();
+
+        // commit
+        realm.commitTransaction();
+    }
+
     private void setTitleAndColor() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Utils.getColor(phoneNo)));
-            getSupportActionBar().setTitle(Utils.getContactName(this, phoneNo));
+            getSupportActionBar().setTitle(ContactsManager.getContactName(this, phoneNo));
         }
     }
 
@@ -192,7 +264,7 @@ public class SmsViewActivity extends AppCompatActivity {
         }
 
         // realm db persist
-        String uuid = Utils.persistSmsOut(this, phoneNo, message);
+        String uuid = SMSManager.persistSmsOut(this, phoneNo, message);
 
         // GSM send
         sendSms(phoneNo, message, uuid);

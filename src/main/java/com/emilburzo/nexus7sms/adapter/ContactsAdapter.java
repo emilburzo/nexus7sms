@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.emilburzo.nexus7sms.R;
+import com.emilburzo.nexus7sms.manager.ContactsManager;
 import com.emilburzo.nexus7sms.misc.Utils;
 import com.emilburzo.nexus7sms.pojo.Contact;
 
@@ -54,10 +55,10 @@ public class ContactsAdapter extends BaseAdapter {
 
         // picture
         ImageView picture = (ImageView) vi.findViewById(R.id.picture);
-        Bitmap photo = Utils.getContactPhoto(context, contact.phone);
+        Bitmap photo = ContactsManager.getContactPhoto(context, contact.phone);
 
         if (photo == null) {
-            picture.setImageDrawable(Utils.getContactTextPhoto(context, contact.phone));
+            picture.setImageDrawable(ContactsManager.getContactTextPhoto(context, contact.phone));
         } else {
             picture.setImageBitmap(photo);
         }

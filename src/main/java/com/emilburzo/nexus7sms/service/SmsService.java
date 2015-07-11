@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.SmsManager;
+import com.emilburzo.nexus7sms.manager.NotificationsManager;
+import com.emilburzo.nexus7sms.manager.SMSManager;
 import com.emilburzo.nexus7sms.misc.Constants;
 import com.emilburzo.nexus7sms.misc.Utils;
 
@@ -50,8 +52,14 @@ public class SmsService extends Service {
         PendingIntent deliveryIntent = PendingIntent.getBroadcast(this, 0, new Intent(DELIVERED), 0);
 
         // actual sms send
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phone, null, message, sentIntent, deliveryIntent);
+        try {
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage(phone, null, message, sentIntent, deliveryIntent);
+        } catch (Exception e) {
+            Utils.debug(TAG, e.getMessage());
+
+            SMSManager.onSmsSendFail(getApplicationContext(), uuid);
+        }
     }
 
     @Override
@@ -117,11 +125,7 @@ public class SmsService extends Service {
         }
 
         private void onSmsFail() {
-            Utils.debug(TAG, "SMS fail");
-
-            Utils.markSmsNotSent(getApplicationContext(), uuid);
-
-            Utils.notifyMessagesChanged(getApplicationContext());
+            SMSManager.onSmsSendFail(getApplicationContext(), uuid);
         }
     }
 
@@ -150,9 +154,9 @@ public class SmsService extends Service {
         private void onSmsDelivered() {
             Utils.debug(TAG, "SMS has been delivered");
 
-            Utils.markSmsDelivered(getApplicationContext(), uuid);
+            SMSManager.markSmsDelivered(getApplicationContext(), uuid);
 
-            Utils.notifyMessagesChanged(getApplicationContext());
+            NotificationsManager.notifyMessagesChanged(getApplicationContext());
         }
 
         private void onSmsNotDelivered() {

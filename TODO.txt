@@ -13,5 +13,5 @@ v2.+
 [ ] setup donation system
 [ ] in app purchase
 [ ] archive
-[ ] delete
+[x] delete
 [ ] text avatar dacă nu are profile pic
