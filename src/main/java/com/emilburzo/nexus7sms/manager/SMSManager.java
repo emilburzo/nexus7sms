@@ -107,4 +107,12 @@ public class SMSManager {
 
         NotificationsManager.notifyMessagesChanged(context);
     }
+
+    public static String removeNewlines(String body) {
+        if (Utils.isEmpty(body)) {
+            return body;
+        }
+
+        return body.replace("\n", " ").replace("\r", " ");
+    }
 }

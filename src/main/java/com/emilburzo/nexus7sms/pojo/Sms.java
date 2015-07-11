@@ -1,5 +1,6 @@
 package com.emilburzo.nexus7sms.pojo;
 
+import com.emilburzo.nexus7sms.manager.SMSManager;
 import com.emilburzo.nexus7sms.model.SmsModel;
 
 import java.util.Date;
@@ -16,7 +17,7 @@ public class Sms {
 
     public Sms(SmsModel smsModel) {
         this.uuid = smsModel.getUuid();
-        this.body = smsModel.getBody();
+        this.body = SMSManager.removeNewlines(smsModel.getBody());
         this.phone = smsModel.getPhone();
         this.timestamp = smsModel.getTimestamp();
         this.type = smsModel.getType();
