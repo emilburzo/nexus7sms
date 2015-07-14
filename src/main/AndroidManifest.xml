@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.emilburzo.nexus7sms"
           android:installLocation="auto"
-          android:versionCode="21"
-          android:versionName="2.1">
+          android:versionCode="22"
+          android:versionName="2.2">
 
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
