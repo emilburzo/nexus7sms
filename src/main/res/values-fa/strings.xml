@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="action_delete">پاک کردن</string>
+	<string name="action_settings">تنظیمات</string>
+	<string name="app_name">Nexus 7 SMS</string>
+	<string name="avatar_content_description">آواتار</string>
+	<string name="btn_clear_content_description">پاک کردن ورودی جست و جو</string>
+	<string name="btn_send_content_description">ارسال پیام</string>
+	<string name="contact_search_hint">جست و جو با نام یا شماره</string>
+	<string name="contacts_label">تماس ها</string>
+	<string name="delivery_fail">پیام تحویل نشد</string>
+	<string name="delivery_ok">پیام تحویل شد</string>
+	<string name="error_noMessage">پیام فراموش شد</string>
+	<string name="error_noPhone">شماره تلفن فراموش شد</string>
+	<string name="message_too_long">پیام طولانی تر از 160 کاراکتر</string>
+	<string name="msg_copied_to_clipboard">پیام در حافظه کپی شد</string>
+	<string name="msg_length_default_value">0/160</string>
+	<string name="no">خیر</string>
+	<string name="notification_permision_prompt">برنامه نیاز به دسترسی به اعلان های مربوط به پیامک دارد.\nآیا اجازه می دهید؟\nاگر اجازه ندهید، پیام های ورودی نشان داده نخواهد شد.</string>
+	<string name="sent_genericError">عدم موفقیت نامشخص</string>
+	<string name="sent_noPdu">PDU فراموش شد</string>
+	<string name="sent_noService">سرویس وجود ندارد</string>
+	<string name="sent_radioOff">رادیو غیرفعال است</string>
+	<string name="sent_smsSent">پیام ارسال شد</string>
+	<string name="sms_body_hint">پیام را بنویسید</string>
+	<string name="sms_contentHint">پیام</string>
+	<string name="sms_out_error">پیام قادر به ارسال نیست</string>
+	<string name="sms_phoneToHint">شماره تلفن</string>
+	<string name="sms_sendButton">ارسال پیام</string>
+	<string name="sms_sendConfirmation">آیا مطمئنید میخواهید پیام را ارسال کنید؟</string>
+	<string name="thread_delete_confirm">آیا مطمئنید میخواهید تمام پیام ها ی مکالمه پاک کنید؟</string>
+	<string name="yes">بله</string>
+</resources>
