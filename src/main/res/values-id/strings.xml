@@ -2,7 +2,7 @@
 <resources>
 	<string name="action_delete">Hapus</string>
 	<string name="action_settings">Pengaturan</string>
-	<string name="app_name">SMS Nexus 7</string>
+	<string name="app_name">SMS for Nexus 7</string>
 	<string name="avatar_content_description">Avatar</string>
 	<string name="btn_clear_content_description">bersihkan isi pencarian</string>
 	<string name="btn_send_content_description">kirim SMS</string>
