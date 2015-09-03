@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="action_delete">Hapus</string>
+	<string name="action_settings">Pengaturan</string>
+	<string name="app_name">SMS Nexus 7</string>
+	<string name="avatar_content_description">Avatar</string>
+	<string name="btn_clear_content_description">bersihkan isi pencarian</string>
+	<string name="btn_send_content_description">kirim SMS</string>
+	<string name="contact_search_hint">Cari menurut Nama atau Nomor</string>
+	<string name="contacts_label">Kontak</string>
+	<string name="delivery_fail">SMS tidak terkirim</string>
+	<string name="delivery_ok">SMS terkirim</string>
+	<string name="error_noMessage">pesan kosong</string>
+	<string name="error_noPhone">nomor telefon kosong</string>
+	<string name="message_too_long">pesan melebihi 160 karakter</string>
+	<string name="msg_copied_to_clipboard">Pesan telah disalin ke clipboard</string>
+	<string name="msg_length_default_value">0/160</string>
+	<string name="no">No</string>
+	<string name="notification_permision_prompt">Aplikasi ini meminta ijin untuk mengakses pemberitahuan SMS masuk. \n\nIjinkan?</string>
+	<string name="sent_genericError">Gagal, penyebab tak jelas.</string>
+	<string name="sent_noPdu">Jaringan data tidak ada</string>
+	<string name="sent_noService">Tidak ada jaringan</string>
+	<string name="sent_radioOff">Matikan Sinyal</string>
+	<string name="sent_smsSent">SMS terkirim</string>
+	<string name="sms_body_hint">masukkan pesan</string>
+	<string name="sms_contentHint">pesan teks</string>
+	<string name="sms_out_error">tidak dapat mengirim pesan</string>
+	<string name="sms_phoneToHint">nomor telefon</string>
+	<string name="sms_sendButton">Kirim SMS</string>
+	<string name="sms_sendConfirmation">Yakin untuk mengirim pesan ini?</string>
+	<string name="thread_delete_confirm">Yakin untuk menghapus SEMUA pesan dalam percakapan ini?</string>
+	<string name="yes">Ya</string>
+</resources>
