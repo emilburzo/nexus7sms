@@ -2,7 +2,7 @@
 <resources>
 	<string name="action_delete">Delete</string>
 	<string name="action_settings">Settings</string>
-	<string name="app_name">Nexus 7 SMS</string>
+	<string name="app_name">SMS for Nexus 7</string>
 	<string name="avatar_content_description">avatar</string>
 	<string name="btn_clear_content_description">clear search input</string>
 	<string name="btn_send_content_description">send SMS</string>

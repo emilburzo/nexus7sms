@@ -2,7 +2,7 @@
 <resources>
 	<string name="action_delete">پاک کردن</string>
 	<string name="action_settings">تنظیمات</string>
-	<string name="app_name">Nexus 7 SMS</string>
+	<string name="app_name">SMS for Nexus 7</string>
 	<string name="avatar_content_description">آواتار</string>
 	<string name="btn_clear_content_description">پاک کردن ورودی جست و جو</string>
 	<string name="btn_send_content_description">ارسال پیام</string>
