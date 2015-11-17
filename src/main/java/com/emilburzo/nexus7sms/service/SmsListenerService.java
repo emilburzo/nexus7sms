@@ -105,7 +105,7 @@ public class SmsListenerService extends NotificationListenerService {
             Intent intent = new Intent(this, SmsViewActivity.class);
             intent.putExtra(Constants.Intents.PHONE_NUMBER, ContactsManager.getContactPhone(this, phoneNumber));
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
             mBuilder.setContentIntent(pendingIntent);
 
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
