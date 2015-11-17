@@ -327,8 +327,6 @@ public class SmsViewActivity extends AppCompatActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Toast.makeText(context, "broadcast received", Toast.LENGTH_SHORT).show();
-
             loadMessages();
         }
     };
