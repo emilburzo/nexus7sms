@@ -60,4 +60,14 @@ public class Utils {
     private static boolean hasPermission(Context context, String perm) {
         return ContextCompat.checkSelfPermission(context, perm) == PackageManager.PERMISSION_GRANTED;
     }
+
+    public static boolean isPackageInstalled(Context context, String packagename) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
 }

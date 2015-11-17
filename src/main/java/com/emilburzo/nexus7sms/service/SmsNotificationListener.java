@@ -15,7 +15,8 @@ import com.emilburzo.nexus7sms.sms.SmsUtil;
 
 public class SmsNotificationListener extends NotificationListenerService {
 
-    private static final String PACKAGE_BASIC_SMS_RECEIVER = "com.android.basicsmsreceiver";
+    public static final String PACKAGE_BASIC_SMS_RECEIVER = "com.android.basicsmsreceiver";
+
     private static final String ANDROID_TITLE = "android.title";
     private static final String ANDROID_TEXT = "android.text";
 

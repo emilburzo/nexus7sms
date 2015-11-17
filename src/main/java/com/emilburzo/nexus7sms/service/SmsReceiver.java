@@ -8,6 +8,7 @@ import android.telephony.SmsMessage;
 import com.emilburzo.nexus7sms.manager.ContactsManager;
 import com.emilburzo.nexus7sms.manager.NotificationsManager;
 import com.emilburzo.nexus7sms.manager.SMSManager;
+import com.emilburzo.nexus7sms.misc.Utils;
 import com.emilburzo.nexus7sms.sms.SmsUtil;
 
 public class SmsReceiver extends BroadcastReceiver {
@@ -16,6 +17,10 @@ public class SmsReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (Utils.isPackageInstalled(context, SmsNotificationListener.PACKAGE_BASIC_SMS_RECEIVER)) {
+            return;
+        }
+
         Bundle bundle = intent.getExtras();
         SmsMessage[] msgs = null;
 
