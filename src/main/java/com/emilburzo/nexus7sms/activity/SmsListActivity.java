@@ -1,11 +1,14 @@
 package com.emilburzo.nexus7sms.activity;
 
+import android.Manifest;
 import android.content.*;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +20,7 @@ import android.widget.ListView;
 import com.emilburzo.nexus7sms.R;
 import com.emilburzo.nexus7sms.adapter.SmsListAdapter;
 import com.emilburzo.nexus7sms.misc.Constants;
+import com.emilburzo.nexus7sms.misc.Utils;
 import com.emilburzo.nexus7sms.model.SmsModel;
 import com.emilburzo.nexus7sms.pojo.Sms;
 import com.emilburzo.nexus7sms.service.SmsService;
@@ -29,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SmsListActivity extends AppCompatActivity {
+
+    private static final int REQUEST_PERMISSIONS = 0;
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -51,9 +57,34 @@ public class SmsListActivity extends AppCompatActivity {
 
         initHandlers();
 
+        checkForPermissions();
+
         checkForNotificationAccess();
 
         loadMessages();
+    }
+
+    private void checkForPermissions() {
+        List<String> perms = new ArrayList<>();
+
+        if (!Utils.hasContactsPermission(this)) {
+            perms.add(Manifest.permission.READ_CONTACTS);
+        }
+
+        if (!Utils.hasSmsPermission(this)) {
+            perms.add(Manifest.permission.SEND_SMS);
+        }
+
+        if (perms.isEmpty()) {
+            return;
+        }
+
+        String[] permReq = new String[perms.size()];
+        for (int i = 0; i < perms.size(); i++) {
+            permReq[i] = perms.get(i);
+        }
+
+        ActivityCompat.requestPermissions(this, permReq, REQUEST_PERMISSIONS);
     }
 
     private void initDefaultPreferences() {
@@ -144,6 +175,20 @@ public class SmsListActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSIONS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    loadMessages();
+                }
+
+                return;
+            }
         }
     }
 

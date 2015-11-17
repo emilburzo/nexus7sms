@@ -1,10 +1,13 @@
 package com.emilburzo.nexus7sms.activity;
 
+import android.Manifest;
 import android.content.*;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +35,7 @@ import java.util.List;
 public class SmsViewActivity extends AppCompatActivity {
 
     private static final int SMS_MAX_LENGTH = 160;
+    private static final int REQUEST_PERMISSIONS = 1;
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -257,6 +261,11 @@ public class SmsViewActivity extends AppCompatActivity {
     }
 
     public void doSendSms(View view) {
+        if (!Utils.hasSmsPermission(this)) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, REQUEST_PERMISSIONS);
+            return;
+        }
+
         final String message = msgBody.getText().toString();
 
         if (message.trim().isEmpty()) {
@@ -277,6 +286,20 @@ public class SmsViewActivity extends AppCompatActivity {
 
         // refresh list
         loadMessages();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_PERMISSIONS: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    doSendSms(null);
+                }
+
+                return;
+            }
+        }
     }
 
     private void playSound() {
@@ -301,8 +324,11 @@ public class SmsViewActivity extends AppCompatActivity {
     }
 
     private BroadcastReceiver msgReceiver = new BroadcastReceiver() {
+
         @Override
         public void onReceive(Context context, Intent intent) {
+            Toast.makeText(context, "broadcast received", Toast.LENGTH_SHORT).show();
+
             loadMessages();
         }
     };

@@ -49,8 +49,15 @@ public class Utils {
         return df.format(date);
     }
 
+    public static boolean hasSmsPermission(Context context) {
+        return hasPermission(context, Manifest.permission.SEND_SMS);
+    }
 
-    public static boolean hasContactsReadPermission(Context context) {
-        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+    public static boolean hasContactsPermission(Context context) {
+        return hasPermission(context, Manifest.permission.READ_CONTACTS);
+    }
+
+    private static boolean hasPermission(Context context, String perm) {
+        return ContextCompat.checkSelfPermission(context, perm) == PackageManager.PERMISSION_GRANTED;
     }
 }

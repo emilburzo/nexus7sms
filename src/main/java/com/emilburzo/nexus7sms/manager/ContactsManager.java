@@ -25,7 +25,7 @@ public class ContactsManager {
         }
 
         // android >= 6.0: check if we have permission
-        if (!Utils.hasContactsReadPermission(context)) {
+        if (!Utils.hasContactsPermission(context)) {
             return phoneNumber;
         }
 
@@ -99,7 +99,7 @@ public class ContactsManager {
         }
 
         // android >= 6.0: check if we have permission
-        if (!Utils.hasContactsReadPermission(context)) {
+        if (!Utils.hasContactsPermission(context)) {
             return contactId;
         }
 
@@ -158,7 +158,7 @@ public class ContactsManager {
         Bitmap photo = null;
 
         // android >= 6.0: check if we have permission
-        if (!Utils.hasContactsReadPermission(context)) {
+        if (!Utils.hasContactsPermission(context)) {
             return BitmapFactory.decodeResource(context.getResources(), R.drawable.contact_picture);
         }
 

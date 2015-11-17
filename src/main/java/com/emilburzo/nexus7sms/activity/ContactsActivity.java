@@ -102,7 +102,7 @@ public class ContactsActivity extends AppCompatActivity {
     private void loadContacts() {
         contacts.clear();
 
-        if (Utils.hasContactsReadPermission(this)) {
+        if (Utils.hasContactsPermission(this)) {
             // required fields
             String[] projection = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY};
 
