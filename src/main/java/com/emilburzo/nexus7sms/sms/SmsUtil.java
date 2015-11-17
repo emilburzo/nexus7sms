@@ -36,7 +36,7 @@ public class SmsUtil {
             Intent intent = new Intent(context, SmsViewActivity.class);
             intent.putExtra(Constants.Intents.PHONE_NUMBER, ContactsManager.getContactPhone(context, phoneNumber));
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, mId, intent, PendingIntent.FLAG_ONE_SHOT);
             mBuilder.setContentIntent(pendingIntent);
 
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
