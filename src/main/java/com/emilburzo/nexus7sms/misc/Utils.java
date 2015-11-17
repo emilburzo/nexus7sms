@@ -1,6 +1,10 @@
 package com.emilburzo.nexus7sms.misc;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.emilburzo.nexus7sms.BuildConfig;
@@ -46,4 +50,7 @@ public class Utils {
     }
 
 
+    public static boolean hasContactsReadPermission(Context context) {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED;
+    }
 }
