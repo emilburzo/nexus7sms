@@ -1,34 +1,25 @@
 package com.emilburzo.nexus7sms.service;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.app.NotificationCompat;
-import com.emilburzo.nexus7sms.R;
-import com.emilburzo.nexus7sms.activity.SmsViewActivity;
 import com.emilburzo.nexus7sms.manager.ContactsManager;
 import com.emilburzo.nexus7sms.manager.NotificationsManager;
 import com.emilburzo.nexus7sms.manager.SMSManager;
 import com.emilburzo.nexus7sms.misc.Constants;
 import com.emilburzo.nexus7sms.misc.Utils;
+import com.emilburzo.nexus7sms.sms.SmsUtil;
 
-public class SmsListenerService extends NotificationListenerService {
+public class SmsNotificationListener extends NotificationListenerService {
 
     private static final String PACKAGE_BASIC_SMS_RECEIVER = "com.android.basicsmsreceiver";
     private static final String ANDROID_TITLE = "android.title";
     private static final String ANDROID_TEXT = "android.text";
 
-    private static int mId;
+    private static int mId = 0;
 
     private String TAG = this.getClass().getSimpleName();
 
@@ -61,10 +52,11 @@ public class SmsListenerService extends NotificationListenerService {
         doCancelBasicNotification(sbn);
 
         // our notification
-        doNotification(phoneNumber, msgBody);
+        SmsUtil.doNotification(this, phoneNumber, msgBody, mId);
+        mId += 2;
 
         // sound notification
-        doSoundNotification();
+        SmsUtil.doSoundNotification(getApplicationContext());
 
         // refresh UI
         NotificationsManager.notifyMessagesChanged(getApplicationContext());
@@ -86,46 +78,6 @@ public class SmsListenerService extends NotificationListenerService {
         }
     }
 
-    private void doNotification(String phoneNumber, String msgBody) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-
-        boolean notification = sp.getBoolean(Constants.Settings.SHOW_NOTIFICATIONS, true);
-
-        if (notification) {
-            String name = ContactsManager.getContactName(this, phoneNumber);
-
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.ic_notification)
-                    .setLargeIcon(ContactsManager.getContactPhoto(this, phoneNumber))
-                    .setAutoCancel(true)
-                    .setContentTitle(name)
-                    .setContentText(msgBody); // todo trim length
-
-            // Creates an explicit intent for an Activity in your app
-            Intent intent = new Intent(this, SmsViewActivity.class);
-            intent.putExtra(Constants.Intents.PHONE_NUMBER, ContactsManager.getContactPhone(this, phoneNumber));
-
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
-            mBuilder.setContentIntent(pendingIntent);
-
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-            // mId allows you to update the notification later on.
-            mNotificationManager.notify(mId++, mBuilder.build());
-        }
-    }
-
-    private void doSoundNotification() {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-
-        boolean sound = sp.getBoolean(Constants.Settings.INCOMING_SMS_SOUND, true);
-
-        if (sound) {
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-            r.play();
-        }
-    }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
