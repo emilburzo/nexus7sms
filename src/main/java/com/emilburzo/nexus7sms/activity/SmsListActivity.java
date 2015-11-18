@@ -5,7 +5,6 @@ import android.content.*;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -24,6 +23,7 @@ import com.emilburzo.nexus7sms.misc.Constants;
 import com.emilburzo.nexus7sms.misc.Utils;
 import com.emilburzo.nexus7sms.model.SmsModel;
 import com.emilburzo.nexus7sms.pojo.Sms;
+import com.emilburzo.nexus7sms.service.SmsNotificationListener;
 import com.emilburzo.nexus7sms.service.SmsService;
 import com.melnykov.fab.FloatingActionButton;
 import io.realm.Realm;
@@ -133,7 +133,7 @@ public class SmsListActivity extends AppCompatActivity {
     }
 
     private void checkForNotificationAccess() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (!Utils.isPackageInstalled(this, SmsNotificationListener.PACKAGE_BASIC_SMS_RECEIVER)) {
             return;
         }
 
