@@ -28,8 +28,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/body"
-                    android:layout_gravity="end"
-                    android:gravity="end"
                     style="@android:style/TextAppearance.Medium"
                     />
 
