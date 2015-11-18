@@ -24,6 +24,11 @@ public class ContactsManager {
             return "N/A";
         }
 
+        // android >= 6.0: check if we have permission
+        if (!Utils.hasContactsPermission(context)) {
+            return phoneNumber;
+        }
+
         ContentResolver cr = context.getContentResolver();
 
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
@@ -93,6 +98,11 @@ public class ContactsManager {
             return contactId;
         }
 
+        // android >= 6.0: check if we have permission
+        if (!Utils.hasContactsPermission(context)) {
+            return contactId;
+        }
+
         ContentResolver contentResolver = context.getContentResolver();
 
         Uri uri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
@@ -146,6 +156,11 @@ public class ContactsManager {
 
     public static Bitmap getProfilePhoto(Context context) {
         Bitmap photo = null;
+
+        // android >= 6.0: check if we have permission
+        if (!Utils.hasContactsPermission(context)) {
+            return BitmapFactory.decodeResource(context.getResources(), R.drawable.contact_picture);
+        }
 
         ContentResolver cr = context.getContentResolver();
         InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(cr, ContactsContract.Profile.CONTENT_URI);

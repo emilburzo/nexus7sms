@@ -1,6 +1,10 @@
 package com.emilburzo.nexus7sms.misc;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.emilburzo.nexus7sms.BuildConfig;
@@ -45,5 +49,25 @@ public class Utils {
         return df.format(date);
     }
 
+    public static boolean hasSmsPermission(Context context) {
+        return hasPermission(context, Manifest.permission.SEND_SMS);
+    }
 
+    public static boolean hasContactsPermission(Context context) {
+        return hasPermission(context, Manifest.permission.READ_CONTACTS);
+    }
+
+    private static boolean hasPermission(Context context, String perm) {
+        return ContextCompat.checkSelfPermission(context, perm) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static boolean isPackageInstalled(Context context, String packagename) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
 }

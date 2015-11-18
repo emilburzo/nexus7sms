@@ -102,41 +102,43 @@ public class ContactsActivity extends AppCompatActivity {
     private void loadContacts() {
         contacts.clear();
 
-        // required fields
-        String[] projection = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY};
+        if (Utils.hasContactsPermission(this)) {
+            // required fields
+            String[] projection = new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY};
 
-        // filtering query
-        String selection = "";
-        selection += ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " LIKE ?";
-        selection += " OR ";
-        selection += ContactsContract.CommonDataKinds.Phone.NUMBER + " LIKE ?";
-        selection += " OR ";
-        selection += "replace(replace(replace(replace(" + ContactsContract.CommonDataKinds.Phone.NUMBER + ", '+', ''), '-', ''), '(', ''), ')', '')" + " LIKE ?";
+            // filtering query
+            String selection = "";
+            selection += ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " LIKE ?";
+            selection += " OR ";
+            selection += ContactsContract.CommonDataKinds.Phone.NUMBER + " LIKE ?";
+            selection += " OR ";
+            selection += "replace(replace(replace(replace(" + ContactsContract.CommonDataKinds.Phone.NUMBER + ", '+', ''), '-', ''), '(', ''), ')', '')" + " LIKE ?";
 
-        // filtering args
-        String selectionArg = "%" + search.getText() + "%";
-        String[] selectionArgs = new String[]{selectionArg, selectionArg, selectionArg};
+            // filtering args
+            String selectionArg = "%" + search.getText() + "%";
+            String[] selectionArgs = new String[]{selectionArg, selectionArg, selectionArg};
 
-        // order by
-        String orderBy = "lower(" + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC, " + ContactsContract.CommonDataKinds.Phone.TYPE + " ASC";
+            // order by
+            String orderBy = "lower(" + ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + ") ASC, " + ContactsContract.CommonDataKinds.Phone.TYPE + " ASC";
 
-        // query
-        Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, selection, selectionArgs, orderBy);
+            // query
+            Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, selection, selectionArgs, orderBy);
 
-        if (phones != null) {
-            while (phones.moveToNext()) {
-                String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-                String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                int phoneType = phones.getInt(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-                String lookupKey = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY)); // todo decide if we need this
+            if (phones != null) {
+                while (phones.moveToNext()) {
+                    String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+                    String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    int phoneType = phones.getInt(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+                    String lookupKey = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LOOKUP_KEY)); // todo decide if we need this
 
-                Utils.debug(TAG, String.format("Found name: '%s', phone number: '%s', type: '%s', key: '%s'", name, phoneNumber, phoneType, lookupKey));
+                    Utils.debug(TAG, String.format("Found name: '%s', phone number: '%s', type: '%s', key: '%s'", name, phoneNumber, phoneType, lookupKey));
 
-                Contact contact = new Contact(name, phoneNumber, phoneType);
-                contacts.add(contact);
+                    Contact contact = new Contact(name, phoneNumber, phoneType);
+                    contacts.add(contact);
+                }
+
+                phones.close();
             }
-
-            phones.close();
         }
 
         // are we searching for a number?
