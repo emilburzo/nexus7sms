@@ -5,6 +5,7 @@ import android.content.*;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -132,6 +133,10 @@ public class SmsListActivity extends AppCompatActivity {
     }
 
     private void checkForNotificationAccess() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return;
+        }
+
         ContentResolver contentResolver = getContentResolver();
         String enabledNotificationListeners = Settings.Secure.getString(contentResolver, Constants.AndroidSecure.ENABLED_NOTIFICATION_LISTENERS);
         String packageName = getPackageName();
