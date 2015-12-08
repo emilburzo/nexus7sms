@@ -54,7 +54,10 @@ public class SmsUtil {
         if (sound) {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone r = RingtoneManager.getRingtone(context, notification);
-            r.play();
+
+            if (r != null) {
+                r.play();
+            }
         }
     }
 }
