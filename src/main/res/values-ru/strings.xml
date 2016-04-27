@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="action_delete">Удалить</string>
+	<string name="action_settings">Настройки</string>
+	<string name="app_name">SMS for Nexus 7</string>
+	<string name="avatar_content_description">Аватар</string>
+	<string name="btn_clear_content_description">Очистить поиск</string>
+	<string name="btn_send_content_description">Отправить СМС</string>
+	<string name="contact_search_hint">Поиск по имени или номеру</string>
+	<string name="contacts_label">Контакты</string>
+	<string name="delivery_fail">СМС не доставлено</string>
+	<string name="delivery_ok">СМС доставлено</string>
+	<string name="error_noMessage">Отсутствует сообщение</string>
+	<string name="error_noPhone">Отсутствует номер телефона</string>
+	<string name="message_too_long">Сообщение длиннее 160 символов</string>
+	<string name="msg_copied_to_clipboard">Сообщение скопировано в буфер.</string>
+	<string name="msg_length_default_value">0/160</string>
+	<string name="no">Нет</string>
+	<string name="notification_permision_prompt">Приложению нужно разрешение на чтение входящих СМС.\nВы хотите разрешить?\nЕсли вы не разрешите, то входящие СМС не будут отображаться.</string>
+	<string name="sent_genericError">Неизвестная ошибка</string>
+	<string name="sent_noPdu">Отсутствует PDU</string>
+	<string name="sent_noService">Нет обслуживания</string>
+	<string name="sent_radioOff">Радио выключено</string>
+	<string name="sent_smsSent">СМС отправлено</string>
+	<string name="sms_body_hint">Введите сообщение</string>
+	<string name="sms_contentHint">Текст сообщения</string>
+	<string name="sms_out_error">Не могу отправить сообщение</string>
+	<string name="sms_phoneToHint">Номер телефона</string>
+	<string name="sms_sendButton">Отправить СМС</string>
+	<string name="sms_sendConfirmation">Вы уверены что вы хотите отправить сообщение?</string>
+	<string name="thread_delete_confirm">Вы уверены что вы хотите удалить ВСЕ сообщения из этой переписки?</string>
+	<string name="yes">Да</string>
+</resources>
