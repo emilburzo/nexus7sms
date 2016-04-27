@@ -3,10 +3,10 @@
 	<string name="action_delete">Hapus</string>
 	<string name="action_settings">Pengaturan</string>
 	<string name="app_name">SMS for Nexus 7</string>
-	<string name="avatar_content_description">Avatar</string>
+	<string name="avatar_content_description">avatar</string>
 	<string name="btn_clear_content_description">bersihkan isi pencarian</string>
 	<string name="btn_send_content_description">kirim SMS</string>
-	<string name="contact_search_hint">Cari menurut Nama atau Nomor</string>
+	<string name="contact_search_hint">cari menurut nama atau nomor</string>
 	<string name="contacts_label">Kontak</string>
 	<string name="delivery_fail">SMS tidak terkirim</string>
 	<string name="delivery_ok">SMS terkirim</string>
