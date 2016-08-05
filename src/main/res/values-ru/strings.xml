@@ -2,7 +2,7 @@
 <resources>
 	<string name="action_delete">Удалить</string>
 	<string name="action_settings">Настройки</string>
-	<string name="app_name">SMS for Nexus 7</string>
+	<string name="app_name">SMS для Nexus 7</string>
 	<string name="avatar_content_description">Аватар</string>
 	<string name="btn_clear_content_description">Очистить поиск</string>
 	<string name="btn_send_content_description">Отправить СМС</string>

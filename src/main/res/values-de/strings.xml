@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="action_delete">Löschen</string>
+	<string name="action_settings">Einstellungen</string>
+	<string name="app_name">SMS für Nexus 7</string>
+	<string name="avatar_content_description">Avatar</string>
+	<string name="btn_clear_content_description">Suche löschen</string>
+	<string name="btn_send_content_description">SMS senden</string>
+	<string name="contact_search_hint">Suche nach Namen oder Nummer</string>
+	<string name="contacts_label">Kontakte</string>
+	<string name="delivery_fail">SMS nicht zugestellt</string>
+	<string name="delivery_ok">SMS zugestellt</string>
+	<string name="error_noMessage">Nachricht fehlt</string>
+	<string name="error_noPhone">Telefonnummer fehlt</string>
+	<string name="message_too_long">Nachricht länger als 160 Zeichen</string>
+	<string name="msg_copied_to_clipboard">Nachricht in Zwischenablage kopiert und</string>
+	<string name="msg_length_default_value">0/160</string>
+	<string name="no">Nein</string>
+	<string name="notification_permision_prompt">Diese Applikation benötigt die Berechtigung eingehende SMS zu lesen.\nMöchten Sie dies zulassen?\nEingehende SMS werden nicht angezeigt, wenn sie dies nicht zulassen.</string>
+	<string name="sent_genericError">Unbekannter Fehler</string>
+	<string name="sent_noPdu">PDU fehlt</string>
+	<string name="sent_noService">Kein Mobilfunknetz</string>
+	<string name="sent_radioOff">Flugzeug Modus aktiviert</string>
+	<string name="sent_smsSent">SMS gesendet</string>
+	<string name="sms_body_hint">Nachricht eingeben</string>
+	<string name="sms_contentHint">Nachrichtentext</string>
+	<string name="sms_out_error">Nachricht konnte nicht gesendet werden</string>
+	<string name="sms_phoneToHint">Telefonnummer</string>
+	<string name="sms_sendButton">SMS senden</string>
+	<string name="sms_sendConfirmation">Nachricht wirklich senden?</string>
+	<string name="thread_delete_confirm">Alle Nachrichten der Konversation löschen?</string>
+	<string name="yes">Ja</string>
+</resources>
