@@ -14,6 +14,7 @@
 	<string name="error_noPhone">Отсутствует номер телефона</string>
 	<string name="message_too_long">Сообщение длиннее 160 символов</string>
 	<string name="msg_copied_to_clipboard">Сообщение скопировано в буфер.</string>
+	<string name="msg_length_default_value">0/160</string>
 	<string name="no">Нет</string>
 	<string name="notification_permision_prompt">Приложению нужно разрешение на чтение входящих СМС.\nВы хотите разрешить?\nЕсли вы не разрешите, то входящие СМС не будут отображаться.</string>
 	<string name="sent_genericError">Неизвестная ошибка</string>

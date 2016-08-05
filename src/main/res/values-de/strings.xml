@@ -14,6 +14,7 @@
 	<string name="error_noPhone">Telefonnummer fehlt</string>
 	<string name="message_too_long">Nachricht länger als 160 Zeichen</string>
 	<string name="msg_copied_to_clipboard">Nachricht in Zwischenablage kopiert und</string>
+	<string name="msg_length_default_value">0/160</string>
 	<string name="no">Nein</string>
 	<string name="notification_permision_prompt">Diese Applikation benötigt die Berechtigung eingehende SMS zu lesen.\nMöchten Sie dies zulassen?\nEingehende SMS werden nicht angezeigt, wenn sie dies nicht zulassen.</string>
 	<string name="sent_genericError">Unbekannter Fehler</string>

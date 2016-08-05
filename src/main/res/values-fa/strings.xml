@@ -2,6 +2,7 @@
 <resources>
 	<string name="action_delete">پاک کردن</string>
 	<string name="action_settings">تنظیمات</string>
+	<string name="app_name">SMS for Nexus 7</string>
 	<string name="avatar_content_description">آواتار</string>
 	<string name="btn_clear_content_description">پاک کردن ورودی جست و جو</string>
 	<string name="btn_send_content_description">ارسال پیام</string>
@@ -13,6 +14,7 @@
 	<string name="error_noPhone">شماره تلفن فراموش شد</string>
 	<string name="message_too_long">پیام طولانی تر از 160 کاراکتر</string>
 	<string name="msg_copied_to_clipboard">پیام در حافظه کپی شد</string>
+	<string name="msg_length_default_value">0/160</string>
 	<string name="no">خیر</string>
 	<string name="notification_permision_prompt">برنامه نیاز به دسترسی به اعلان های مربوط به پیامک دارد.\nآیا اجازه می دهید؟\nاگر اجازه ندهید، پیام های ورودی نشان داده نخواهد شد.</string>
 	<string name="sent_genericError">عدم موفقیت نامشخص</string>

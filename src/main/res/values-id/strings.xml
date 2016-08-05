@@ -3,6 +3,7 @@
 	<string name="action_delete">Hapus</string>
 	<string name="action_settings">Pengaturan</string>
 	<string name="app_name">SMS Nexus 7</string>
+	<string name="avatar_content_description">avatar</string>
 	<string name="btn_clear_content_description">bersihkan isi pencarian</string>
 	<string name="btn_send_content_description">kirim SMS</string>
 	<string name="contact_search_hint">cari menurut nama atau nomor</string>
@@ -13,6 +14,8 @@
 	<string name="error_noPhone">nomor telefon kosong</string>
 	<string name="message_too_long">pesan melebihi 160 karakter</string>
 	<string name="msg_copied_to_clipboard">Pesan telah disalin ke clipboard</string>
+	<string name="msg_length_default_value">0/160</string>
+	<string name="no">No</string>
 	<string name="notification_permision_prompt">Aplikasi ini meminta ijin untuk mengakses pemberitahuan SMS masuk. \n\nIjinkan?</string>
 	<string name="sent_genericError">Gagal, penyebab tak jelas.</string>
 	<string name="sent_noPdu">Jaringan data tidak ada</string>
