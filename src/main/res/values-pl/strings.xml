@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="action_delete">Usuń</string>
+	<string name="action_settings">Ustawienia</string>
+	<string name="app_name">SMS do Nexusa 7</string>
+	<string name="avatar_content_description">awatar</string>
+	<string name="btn_clear_content_description">wyczyść historię wyszukiwania</string>
+	<string name="btn_send_content_description">wyślij SMS</string>
+	<string name="contact_search_hint">szukaj przez nazwę lub numer</string>
+	<string name="contacts_label">Kontkty</string>
+	<string name="delivery_fail">SMS niedostarczony</string>
+	<string name="delivery_ok">SMS dostarczony</string>
+	<string name="error_noMessage">brak wiadomości</string>
+	<string name="error_noPhone">brak numeru telefonu</string>
+	<string name="message_too_long">wiadomość dłuższa niż 160 znaków</string>
+	<string name="msg_copied_to_clipboard">Wiadomość została skopiowana do schowka</string>
+	<string name="msg_length_default_value">0/160</string>
+	<string name="no">Nie</string>
+	<string name="notification_permision_prompt">Aplikacja potrzebuje zgody na odczyt powiadomień o przychodzących SMS-ach.\n\nCzy zgadzasz się?\n\nPrzychodzące wiadomości SMS nie będą się pojawiać, jeżeli nie zgodzisz się na to.</string>
+	<string name="sent_genericError">Niezidentyfikowany błąd</string>
+	<string name="sent_noPdu">brak PDU</string>
+	<string name="sent_noService">Brak usługi</string>
+	<string name="sent_radioOff">Radio wyłączone</string>
+	<string name="sent_smsSent">SMS wysłany</string>
+	<string name="sms_body_hint">wpisz wiadomość</string>
+	<string name="sms_contentHint">wiadomość tekstowa</string>
+	<string name="sms_out_error">wiadomość nie mogła zostać wysłana</string>
+	<string name="sms_phoneToHint">numer telefonu</string>
+	<string name="sms_sendButton">Wyślij SMS</string>
+	<string name="sms_sendConfirmation">Czy na pewno chcesz wysłać tę wiadomość?</string>
+	<string name="thread_delete_confirm">Czy na pewno chcesz usunąć WSZYSTKIE wiadomości w tej rozmowie?</string>
+	<string name="yes">Tak</string>
+</resources>
