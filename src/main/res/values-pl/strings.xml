@@ -7,7 +7,7 @@
 	<string name="btn_clear_content_description">wyczyść historię wyszukiwania</string>
 	<string name="btn_send_content_description">wyślij SMS</string>
 	<string name="contact_search_hint">szukaj przez nazwę lub numer</string>
-	<string name="contacts_label">Kontkty</string>
+	<string name="contacts_label">Kontakty</string>
 	<string name="delivery_fail">SMS niedostarczony</string>
 	<string name="delivery_ok">SMS dostarczony</string>
 	<string name="error_noMessage">brak wiadomości</string>
