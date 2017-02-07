@@ -52,7 +52,8 @@
 
         <activity
             android:name=".activity.SettingsActivity"
-            android:exported="false"></activity>
+            android:exported="false"
+            android:parentActivityName=".activity.SmsListActivity"></activity>
 
         <service
             android:name=".service.SmsNotificationListener"
