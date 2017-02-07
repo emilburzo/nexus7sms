@@ -1,32 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference
-        android:key="pref_incoming_sms_sound"
-        android:title="Incoming SMS sound"
-        android:summaryOn="Play a sound when a new SMS arrives"
-        android:summaryOff="Don't play a sound when a new SMS arrives"
-        android:defaultValue="true"/>
+    <PreferenceCategory
+        android:key="pref_category_notifications_key"
+        android:title="Notifications">
 
-    <CheckBoxPreference
-        android:key="pref_outgoing_sms_sound"
-        android:title="Outgoing SMS sound"
-        android:summaryOn="Play a sound when you send a SMS"
-        android:summaryOff="Don't play a sound when you send a SMS"
-        android:defaultValue="true"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_incoming_sms_sound"
+            android:summaryOff="Don't play a sound when a new SMS arrives"
+            android:summaryOn="Play a sound when a new SMS arrives"
+            android:title="Incoming SMS sound" />
 
-    <CheckBoxPreference
-        android:key="pref_show_notifications"
-        android:title="Show notification for new SMS"
-        android:summaryOn="Show a notification when a new SMS arrives"
-        android:summaryOff="Don't show a notification when a new SMS arrives"
-        android:defaultValue="true"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_outgoing_sms_sound"
+            android:summaryOff="Don't play a sound when you send a SMS"
+            android:summaryOn="Play a sound when you send a SMS"
+            android:title="Outgoing SMS sound" />
 
-    <CheckBoxPreference
-        android:key="pref_hide_simple_notification"
-        android:title="Automatically dismiss built-in notifications"
-        android:summaryOn="Hide the system SMS notification when a new SMS arrives"
-        android:summaryOff="Keep the system SMS notification when a new SMS arrives"
-        android:defaultValue="true"/>
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_show_notifications"
+            android:summaryOff="Don't show a notification when a new SMS arrives"
+            android:summaryOn="Show a notification when a new SMS arrives"
+            android:title="Show notification for new SMS" />
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_hide_simple_notification"
+            android:summaryOff="Keep the system SMS notification when a new SMS arrives"
+            android:summaryOn="Hide the system SMS notification when a new SMS arrives"
+            android:title="Automatically dismiss built-in notifications" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="pref_category_legalese_key"
+        android:title="Legalese">
+
+        <Preference
+            android:key="pref_privacy_policy"
+            android:summary="Privacy policy" />
+    </PreferenceCategory>
 
 </PreferenceScreen>
