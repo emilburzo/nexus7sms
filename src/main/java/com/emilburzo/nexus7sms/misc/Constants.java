@@ -41,6 +41,11 @@ public class Constants {
         public static final String OUTGOING_SMS_SOUND = "pref_outgoing_sms_sound";
         public static final String SHOW_NOTIFICATIONS = "pref_show_notifications";
         public static final String HIDE_SIMPLE_NOTIFICATIONS = "pref_hide_simple_notification";
+        public static final String PRIVACY_POLICY = "pref_privacy_policy";
+    }
+
+    public static final class Links {
+        public static final String PRIVACY_POLICY = "https://github.com/emilburzo/nexus7sms/blob/master/PRIVACY.md";
     }
 
 
