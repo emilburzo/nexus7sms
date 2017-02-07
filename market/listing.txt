@@ -1,7 +1,10 @@
+<b>***Android Marshmallow (6.0) users***</b>: it looks like you can finally use normal SMS apps, so this app is no longer essential for Marshmallow.
+<br />
+
 Since you are here, you probably noticed that on the <b>Nexus 7 3G/LTE</b> edition, you can't send/receive SMS messages, hindering the ability for many to subscribe/change options on various prepay providers.
 <br />
 
-You can now finally send and receive SMS messages from your Nexus 7 tablet! (as long as it has a SIM, of course)
+You can now finally send and receive SMS messages from your Nexus 7 tablet! (as long as it has a SIM and a carrier plan with included texts, of course)
 <br />
 
 No root access required, just stock Android.
@@ -20,4 +23,18 @@ No root access required, just stock Android.
 &bull; Nexus 7 3G (2012) (thanks Emad Zolqadr)
 <br />
 
+<b>Known limitations:</b>
+&bull; Multipart SMS show up as different messages (Android issue)
+<br />
+
 Let me know if it helps you with other devices!
+
+<b>To help translate SMS for Nexus 7 in your language, go to: https://www.localize.im/v/l4</b>
+
+<b>Contributed languages:</b>
+&bull; Persian (thank you Mohammad Reza)
+&bull; Indonesian (thank you Arif Sujatmiko)
+&bull; Russian (thank you runmoscow)
+&bull; German (thank you jambay)
+&bull; Polish (thank you Dawid Migacz)
+<br />
